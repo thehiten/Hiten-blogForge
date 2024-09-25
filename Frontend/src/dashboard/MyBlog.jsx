@@ -23,7 +23,7 @@ function MyBlog() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`api/blog/delete/${blogId}`, {
+      await axios.delete(`https://hiten-blogforge.onrender.com/api/blog/delete/${blogId}`, {
         withCredentials: true,
       });
       setMyBlogs(myBlogs.filter((blog) => blog._id !== blogId));
