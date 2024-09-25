@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Update from "./dashboard/Update";
 import Login from "./pages/Login";
 import Detail from "./pages/Detail";
+import NotFound from "./pages/notFound";
+
 
 import { useAuth } from "./context/AuthProvider";
 import Creators from "./pages/Creators"; // Correct capitalization
