@@ -42,7 +42,7 @@ function Login() {
     } catch (error) {
       console.log(error.response?.data?.message || error.message);
       toast.error(error.response?.data?.message || "Please fill the required fields", {
-        duration: 100,
+        duration: 3000,
       });
     }
   };
