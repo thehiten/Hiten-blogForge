@@ -8,7 +8,7 @@ function MyBlog() {
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
-        const response = await axios.get("https://hiten-blogforge.onrender.com/api/blog/getMyBlog", {
+        const response = await axios.get("https://hiten-blogforge.onrender.com/api/user/getMyProfile", {
           withCredentials: true,
         });
         setMyBlogs(response.data);
