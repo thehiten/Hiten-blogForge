@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 import { useNavigate } from "react-router-dom";
 
-
 function Update() {
   const navigateTo = useNavigate();
   const { id } = useParams();
@@ -34,7 +33,7 @@ function Update() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3000/api/blog/getSingleBlog/${id}`, {
+        const { data } = await axios.get(`https://hiten-blogforge.onrender.com/api/blog/getSingleBlog/${id}`, {
           withCredentials: true,
         });
         console.log(data); // Log the entire response data
@@ -72,7 +71,7 @@ function Update() {
 
     try {
       // Perform the update API request
-      const response = await axios.put(`/api/blog/updateBlog/${id}`, formData, {
+      const response = await axios.put(`https://hiten-blogforge.onrender.com/api/blog/updateBlog/${id}`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

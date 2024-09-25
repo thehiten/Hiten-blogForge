@@ -6,20 +6,18 @@ import { Link } from 'react-router-dom';
 
 function Creator() {
   const [admin, setAdmins] = useState([]);
-  
 
   useEffect(() => {
     // Define an async function to fetch data
     const fetchAdmins = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/user/getAdmins', {
+        const response = await axios.get('https://hiten-blogforge.onrender.com/api/user/getAdmins', {
           withCredentials: true // Ensure this is correct for your API
         });
         console.log(response.data); // Log the entire response data
         setAdmins(response.data); // Adjust according to the actual structure of your data
       } catch (error) {
         console.error(error);
-       
       }
     };
 
@@ -69,7 +67,6 @@ function Creator() {
                 <p>{element.name}</p>
                 <p>{element.role}</p>
               </div>
-             
             </Link>
           ))
         ) : (
@@ -77,8 +74,6 @@ function Creator() {
         )}
       </Carousel>
     </div>
-
-    
   );
 }
 

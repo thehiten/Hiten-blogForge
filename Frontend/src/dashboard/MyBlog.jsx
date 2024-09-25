@@ -8,13 +8,13 @@ function MyBlog() {
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/blog/getMyBlog", {
+        const response = await axios.get("https://hiten-blogforge.onrender.com/api/blog/getMyBlog", {
           withCredentials: true,
         });
         setMyBlogs(response.data);
         console.log(response.data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching blogs:", error);
       }
     };
 
@@ -22,14 +22,16 @@ function MyBlog() {
   }, []);
 
   const handleDelete = async (blogId) => {
-    try {
-      await axios.delete(`api/blog/delete/${blogId}`, {
-        withCredentials: true,
-      });
-      setMyBlogs(myBlogs.filter((blog) => blog._id !== blogId));
-      console.log("Blog deleted successfully.");
-    } catch (error) {
-      console.error("Error deleting blog:", error);
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        await axios.delete(`https://hiten-blogforge.onrender.com/api/blog/delete/${blogId}`, {
+          withCredentials: true,
+        });
+        setMyBlogs((prevBlogs) => prevBlogs.filter((blog) => blog._id !== blogId));
+        console.log("Blog deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting blog:", error);
+      }
     }
   };
 

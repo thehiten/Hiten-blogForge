@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useAuth } from "../context/AuthProvider";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -18,7 +17,9 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/user/logout", { withCredentials: true });
+      await axios.post("https://hiten-blogforge.onrender.com/api/user/logout", {}, {
+        withCredentials: true, // Ensure this is correct for your API
+      });
       setIsAuthenticated(false);
       toast.success("Logged out successfully.");
       navigate("/login");

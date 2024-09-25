@@ -35,10 +35,12 @@ function CreateBlog() {
     formData.append("title", title);
     formData.append("category", category);
     formData.append("about", about);
-    formData.append("blogImage", blogImage);
+    if (blogImage) {
+      formData.append("blogImage", blogImage);
+    }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/blog/create", formData, {
+      const response = await axios.post("https://hiten-blogforge.onrender.com/api/blog/create", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -48,18 +50,21 @@ function CreateBlog() {
       toast.success(response.data.message || "Blog created successfully");
 
       // Reset form fields
-      setTitle("");
-      setCategory("");
-      setAbout("");
-      setBlogImage(null);
-      setBlogImagePreview("");
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      resetForm();
     } catch (error) {
-      console.error(error);
+      console.error("Error creating blog:", error);
       toast.error(error.response?.data?.message || "Error creating blog");
+    }
+  };
+
+  const resetForm = () => {
+    setTitle("");
+    setCategory("");
+    setAbout("");
+    setBlogImage(null);
+    setBlogImagePreview("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -118,6 +123,7 @@ function CreateBlog() {
               ref={fileInputRef}
               onChange={changePhotoHandler}
               className="w-full p-2 border rounded-md"
+              accept="image/*" // Accept only image files
             />
           </div>
 

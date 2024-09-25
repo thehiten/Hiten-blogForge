@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -22,7 +22,7 @@ function Login() {
     formData.append("role", role);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", formData, {
+      const response = await axios.post("https://hiten-blogforge.onrender.com/api/user/login", formData, {
         headers: {
           withCredentials: true,
           "Content-Type": "multipart/form-data",
@@ -33,7 +33,6 @@ function Login() {
       toast.success(response.data.message || "User Login successfully");
 
       // Reset form fields
-      
       setIsAuthenticated(true);
       setEmail("");
       setPassword("");
@@ -41,12 +40,10 @@ function Login() {
 
       navigateTo("/");
     } catch (error) {
-      console.log(error.response.data.message);
-      toast.error(error.response.data.message) || "Please fill the required fields",
-      {
+      console.log(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || "Please fill the required fields", {
         duration: 100,
-      }
-    
+      });
     }
   };
 

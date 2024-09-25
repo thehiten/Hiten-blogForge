@@ -10,13 +10,17 @@ function Sidebar({ setComponent }) {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
+  // Redirect if the user is not authenticated
   if (!isAuthenticated) {
     return <div>Please log in to see your profile.</div>;
   }
 
+  // Handle user logout
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/user/logout", { withCredentials: true });
+      await axios.post("https://hiten-blogforge.onrender.com/api/user/logout", {}, {
+        withCredentials: true
+      });
       setIsAuthenticated(false);
       toast.success("Logged out successfully.");
       navigate("/");

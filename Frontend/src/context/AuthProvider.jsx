@@ -1,7 +1,6 @@
 // We will get the data from the backend.
 // We will handle it using any component.
 // We need many components.
-
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -14,11 +13,11 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // fetch profile
+    // Fetch profile
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/user/getMyProfile",
+          "https://hiten-blogforge.onrender.com/api/user/getMyProfile",
           {
             withCredentials: true, // Ensure this is correct for your API
             headers: {
@@ -29,13 +28,16 @@ export function AuthProvider({ children }) {
         setProfile(response.data);
         setIsAuthenticated(true); // Set the user authenticated state
       } catch (error) {
-        console.error("Error fetching blogs", error);
+        console.error("Error fetching profile", error);
+        // Optionally handle unauthenticated state
+        setIsAuthenticated(false);
       }
     };
+
     // Fetch blog data
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/blog/getBlog/");
+        const response = await axios.get("https://hiten-blogforge.onrender.com/api/blog/getBlog/");
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs", error);
