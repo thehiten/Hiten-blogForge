@@ -1,0 +1,1 @@
+export const Backend_URL = "https://hiten-blogforge.onrender.com/"
