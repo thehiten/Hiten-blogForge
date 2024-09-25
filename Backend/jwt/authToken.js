@@ -11,7 +11,9 @@ export const createTokenAndSaveCookies = async (userId, res) => {
     // Set cookie with JWT
     res.cookie("jwt", token, {
       expires: new Date(Date.now() + 3600000), // Cookie expiry time (1 hour)
-      httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+      httpOnly: false, // Prevents client-side JavaScript from accessing the cookie
+      secure: true, // Cookie will only be sent over HTTPS connections
+      sameSite: "none", // Cookie will only be sent to the same origin
     });
     console.log(token)
     return token;
