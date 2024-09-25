@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import { v2 as cloudinary } from "cloudinary"; // Make sure to configure Cloudinary
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { createTokenAndSaveCookies } from "../jwt/authToken.js";
 
 export const register = async (req, res) => {
