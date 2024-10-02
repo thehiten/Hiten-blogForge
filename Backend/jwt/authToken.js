@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+
 export const createTokenAndSaveCookies = async (userId, res) => {
   try {
     // Generate JWT token
@@ -5,18 +8,17 @@ export const createTokenAndSaveCookies = async (userId, res) => {
       expiresIn: "1h",
     });
 
-    // Set cookie with JWT dynamically for both production and development environments
+    // Set cookie with JWT
     res.cookie("jwt", token, {
-      expires: new Date(Date.now() + 3600000), // Set cookie expiry (1 hour)
-      httpOnly: true, // Cookie accessible only by the server, preventing client-side JS from accessing it
-      secure: process.env.NODE_ENV === "production" || process.env.FORCE_SECURE === "true", // Use HTTPS in production or if explicitly forced
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Cross-origin in production, more relaxed for local development
+      expires: new Date(Date.now() + 3600000), // Cookie expiry time (1 hour)
+      httpOnly: false, // Prevents client-side JavaScript from accessing the cookie
+      secure: false, // Cookie will only be sent over HTTPS connections
+      sameSite: "none", // Cookie will only be sent to the same origin
     });
-
-    console.log("JWT Cookie Set Successfully:", token);
+    console.log(token)
     return token;
   } catch (error) {
     console.error("Error creating token or setting cookie:", error);
-    throw error; // Rethrow the error to handle it properly in your route/controller
+    // Handle error appropriately
   }
 };
