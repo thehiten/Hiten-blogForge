@@ -19,9 +19,9 @@ const app = express();
 const port = process.env.PORT || 4000;
 const MONGO_URL = process.env.MONGODB_URL;
 
-// Middleware for parsing JSON and URL-encoded data (replaces bodyParser)
-app.use(express.json()); // Parse JSON payloads
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+// Middleware for parsing JSON and URL-encoded data
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Middleware for parsing cookies
 app.use(cookieParser());
@@ -29,14 +29,14 @@ app.use(cookieParser());
 // Middleware for handling file uploads
 app.use(fileUpload({
   useTempFiles: true,
-  tempFileDir: '/tmp/', // Ensure /tmp/ directory exists and has correct permissions
+  tempFileDir: '/tmp/',
 }));
 
-// Middleware for CORS (Cross-Origin Resource Sharing)
+// Middleware for CORS
 app.use(cors({
-  origin: 'https://hiten-blog-forge.vercel.app', // Replace with your Vercel front-end URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specified HTTP methods
-  credentials: true, // Necessary to handle credentials (cookies, authentication)
+  origin: 'https://hiten-blog-forge.vercel.app',  // Vercel frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, // Allow cookies to be sent
 }));
 
 // Connect to MongoDB
@@ -56,7 +56,7 @@ app.use('/api/user', userRoute);
 app.use('/api/blog', blogRoute);
 app.use('/api/contact', contactRoute);
 
-// Global error handler for catching errors and returning meaningful responses
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
