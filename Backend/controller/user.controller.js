@@ -3,12 +3,6 @@ import { v2 as cloudinary } from "cloudinary"; // Make sure to configure Cloudin
 import bcrypt from "bcryptjs";
 import { createTokenAndSaveCookies } from "../jwt/authToken.js";
 
-import jwt from "jsonwebtoken";
-// import bcrypt from "bcrypt"; // Ensure bcrypt is imported
-import User from "../models/user.model.js";
-import { v2 as cloudinary } from 'cloudinary'; // Ensure cloudinary is imported
-
-// Registration function
 export const register = async (req, res) => {
   try {
     // Check if a file was uploaded
@@ -18,18 +12,12 @@ export const register = async (req, res) => {
 
     const { photo } = req.files;
     const allowedFormats = ["image/jpg", "image/jpeg", "image/png"];
-    const maxFileSize = 2 * 1024 * 1024; // 2 MB
 
     // Check file format
     if (!allowedFormats.includes(photo.mimetype)) {
       return res.status(400).json({
         error: "Invalid file format. Only .jpg and .png are allowed",
       });
-    }
-
-    // Check file size
-    if (photo.size > maxFileSize) {
-      return res.status(400).json({ error: "File size exceeds 2 MB" });
     }
 
     const { email, name, password, phone, education, role } = req.body;
@@ -46,13 +34,17 @@ export const register = async (req, res) => {
     }
 
     // Upload the photo to Cloudinary
-    const cloudinaryResponse = await cloudinary.uploader.upload(photo.tempFilePath);
+    const cloudinaryResponse = await cloudinary.uploader.upload(
+      photo.tempFilePath
+    );
     if (!cloudinaryResponse || cloudinaryResponse.error) {
-      return res.status(500).json({ error: "Failed to upload photo to Cloudinary" });
+      return res
+        .status(500)
+        .json({ error: "Failed to upload photo to Cloudinary" });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
 
     // Create a new user
     const newUser = new User({
@@ -70,36 +62,36 @@ export const register = async (req, res) => {
 
     // Save the new user
     await newUser.save();
-
-    // Generate a token and set it in cookies
-    const token = await createTokenAndSaveCookies(newUser._id, res);
-
-    res.status(201).json({
-      message: "User registered successfully",
-      token, // Token included in the response
-      user: {
-        _id: newUser._id,
-        email: newUser.email,
-        name: newUser.name,
-        phone: newUser.phone,
-        education: newUser.education,
-        role: newUser.role,
-        photo: newUser.photo,
-      },
-    });
+    if (newUser) {
+      const token = await createTokenAndSaveCookies(newUser._id, res);
+      res.status(201).json({
+        message: "User registered successfully",
+        token, // Token included in the response
+        user: {
+          _id: newUser._id,
+          email: newUser.email,
+          name: newUser.name,
+          phone: newUser.phone,
+          education: newUser.education,
+          role: newUser.role,
+          photo: newUser.photo,
+        },
+      });
+    }
   } catch (error) {
     console.error("Error during user registration:", error);
     return res.status(500).json({ error: "Server error" });
   }
 };
 
-// Login function
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
   try {
     // Check if all fields are provided
     if (!email || !password || !role) {
-      return res.status(400).json({ message: "Please fill the required fields" });
+      return res
+        .status(400)
+        .json({ message: "Please fill the required fields" });
     }
 
     // Find the user by email
@@ -108,7 +100,6 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid Email" });
     }
 
-    // Check role validity
     if (user.role !== role) {
       return res.status(401).json({ message: "Invalid role" });
     }
@@ -137,7 +128,6 @@ export const login = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 
 export const logout = async (req, res) => {
   try {
