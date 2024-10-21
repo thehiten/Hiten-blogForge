@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { createTokenAndSaveCookies } from "../jwt/authToken.js";
 
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt"; // Ensure bcrypt is imported
+// import bcrypt from "bcrypt"; // Ensure bcrypt is imported
 import User from "../models/user.model.js";
 import { v2 as cloudinary } from 'cloudinary'; // Ensure cloudinary is imported
 
