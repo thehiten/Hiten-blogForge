@@ -1,6 +1,3 @@
-// We will get the data from the backend.
-// We will handle it using any component.
-// We need many components.
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -44,8 +41,8 @@ export function AuthProvider({ children }) {
       }
     };
 
-    fetchBlogs(); // Call the function to get data
-    fetchProfile(); // Call the function to get data
+    fetchBlogs(); // Call the function to get blog data
+    fetchProfile(); // Call the function to get profile data
   }, []); // Run once when the component mounts
 
   return (
