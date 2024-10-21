@@ -6,7 +6,7 @@ export const createBlog = async (req, res) => {
   try {
     // Check if a file was uploaded
     if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({ error: "Blog image is required" }); // Corrected "blog Image" to "Blog image" for consistency
+      return res.status(400).json({ error: "Blog image is required" });
     }
 
     const { blogImage } = req.files;
@@ -20,25 +20,27 @@ export const createBlog = async (req, res) => {
     }
 
     const { title, category, about } = req.body;
+    // Validate required fields
     if (!title || !category || !about) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const adminName = req?.user?.name;
-    const adminPhoto = req?.user?.photo?.url;
+    // Get admin details from the request
+    const adminName = req?.user?.name || "Anonymous"; // Fallback if no name
+    const adminPhoto = req?.user?.photo?.url || ""; // Fallback for optional photo
     const createdBy = req?.user?._id;
 
     // Upload the image to Cloudinary
     const cloudinaryResponse = await cloudinary.uploader.upload(
       blogImage.tempFilePath // Ensure the correct field is used for file upload
     );
+
+    // Check Cloudinary response for errors
     if (!cloudinaryResponse || cloudinaryResponse.error) {
-      return res
-        .status(500)
-        .json({ error: "Failed to upload image to Cloudinary" }); // Changed "photo" to "image" for clarity
+      return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
     }
 
-    // Create a new blog
+    // Create a new blog post
     const blogData = new Blog({
       title,
       about,
@@ -48,18 +50,21 @@ export const createBlog = async (req, res) => {
       createdBy,
       blogImage: {
         public_id: cloudinaryResponse.public_id,
-        url: cloudinaryResponse.url,
+        url: cloudinaryResponse.secure_url, // Use secure_url for HTTPS
       },
     });
 
-    // Save the new blog
-    const blog = await blogData.save(); // Corrected from `Blog.create(blogData)` to `blogData.save()`
-    res.status(201).json({ message: "Blog created successfully", blog }); // Changed status code to 201
+    // Save the new blog post
+    const blog = await blogData.save();
+
+    // Respond with success message
+    res.status(201).json({ message: "Blog created successfully", blog });
   } catch (error) {
-    console.error("Error during blog creation:", error); // Log message reflects the current operation
+    console.error("Error during blog creation:", error);
     return res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // delete
 
