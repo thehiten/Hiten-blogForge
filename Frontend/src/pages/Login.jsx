@@ -22,12 +22,19 @@ function Login() {
     formData.append("role", role);
 
     try {
-      const response = await axios.post("https://hiten-blogforge.onrender.com/api/user/login", formData, {
-        headers: {
-          withCredentials: true,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      
+      const response = await axios.post(
+        "https://hiten-blogforge.onrender.com/api/user/login",
+        formData,
+        {
+          withCredentials: true, // <-- Move it here
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      
+      
       console.log(response);
       localStorage.setItem("jwt", response.data.token);
       toast.success(response.data.message || "User Login successfully");
