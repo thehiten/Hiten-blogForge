@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"; // Ensure you import bcrypt if you're using it
-import User from "../models/user.model.js";
+// import User from "../models/user.model.js";
 
 // Function to create token and set cookies
 export const createTokenAndSaveCookies = async (userId, res) => {
