@@ -33,8 +33,14 @@ app.use(fileUpload({
 }));
 
 // Middleware for CORS
+const allowedOrigins = [
+  'https://hiten-blog-forge.vercel.app',
+  'https://hiten-blogforge-77ncwmtfz-thehitens-projects.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean); // Remove any undefined values
+
 app.use(cors({
-  origin: 'https://hiten-blog-forge.vercel.app',  // Vercel frontend URL
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   credentials: true, // Allow cookies to be sent
 }));
