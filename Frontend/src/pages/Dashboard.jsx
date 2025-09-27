@@ -145,7 +145,7 @@ function Dashboard() {
       <Navbar />
       <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
       <Sidebar component={component} setComponent={setComponent}/>
-        <div className="flex-1 ml-64 pt-20 p-6 overflow-auto">
+        <div className="flex-1 ml-72 pt-20 p-6 overflow-auto">
         <AnimatePresence mode="wait">
           {loading && component === "Dashboard" ? (
             <motion.div
