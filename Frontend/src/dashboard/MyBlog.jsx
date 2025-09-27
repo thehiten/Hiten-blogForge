@@ -9,7 +9,7 @@ function MyBlog() {
     const fetchMyBlogs = async () => {
       try {
         // Make sure this endpoint retrieves the user's blogs
-        const response = await axios.get("https://hiten-blogforge.onrender.com/api/blog/getMyBlog", {
+        const response = await axios.get("http://localhost:3000/api/blog/getMyBlog", {
           withCredentials: true,
         });
         setMyBlogs(response.data);
@@ -24,7 +24,7 @@ function MyBlog() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://hiten-blogforge.onrender.com/api/blog/delete/${blogId}`, {
+      await axios.delete(`http://localhost:3000/api/blog/delete/${blogId}`, {
         withCredentials: true,
       });
       setMyBlogs(myBlogs.filter((blog) => blog._id !== blogId)); // Update state to remove deleted blog

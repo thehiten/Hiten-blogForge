@@ -17,7 +17,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("https://hiten-blogforge.onrender.com/api/user/logout", {}, {
+      await axios.post("http://localhost:3000/api/user/logout", {}, {
         withCredentials: true, // Ensure this is correct for your API
       });
       setIsAuthenticated(false);

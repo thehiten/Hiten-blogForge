@@ -10,7 +10,7 @@ function Detail() {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const { data } = await axios.get(`https://hiten-blogforge.onrender.com/api/blog/getSingleBlog/${id}`, {
+                const { data } = await axios.get(`http://localhost:3000/api/blog/getSingleBlog/${id}`, {
                     withCredentials: true,
                 });
                 setBlog(data);

@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "https://hiten-blogforge.onrender.com/api/user/getMyProfile",
+          "http://localhost:3000/api/user/getMyProfile",
           {
             withCredentials: true, // Ensure this is correct for your API
             headers: {
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
     // Fetch blog data
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("https://hiten-blogforge.onrender.com/api/blog/getBlog/");
+        const response = await axios.get("http://localhost:3000/api/blog/getBlog/");
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs", error);

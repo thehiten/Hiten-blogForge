@@ -51,7 +51,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "https://hiten-blogforge.onrender.com/api/user/register",
+        "http://localhost:3000/api/user/register",
         formData,{
           withCredentials: true,
           headers: {

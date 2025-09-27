@@ -20,7 +20,7 @@ function Contact() {
     formData.append("message", message);
 
     try {
-      await axios.post("https://hiten-blogforge.onrender.com/api/contact/submitMessages", formData, {
+      await axios.post("http://localhost:3000/api/contact/submitMessages", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

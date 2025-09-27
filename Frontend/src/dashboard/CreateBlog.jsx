@@ -40,7 +40,7 @@ function CreateBlog() {
     }
 
     try {
-      const response = await axios.post("https://hiten-blogforge.onrender.com/api/blog/create", formData, {
+      const response = await axios.post("http://localhost:3000/api/blog/create", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

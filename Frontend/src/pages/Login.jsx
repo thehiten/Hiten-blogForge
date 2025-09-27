@@ -15,6 +15,15 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Client-side validation
+    if (!email || !password || !role) {
+      toast.error("Please fill all required fields", {
+        duration: 3000,
+      });
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("email", email);
@@ -24,7 +33,7 @@ function Login() {
     try {
       
       const response = await axios.post(
-        "https://hiten-blogforge.onrender.com/api/user/login",
+        "http://localhost:3000/api/user/login",
         formData,
         {
           withCredentials: true, // <-- Move it here
@@ -47,10 +56,25 @@ function Login() {
 
       navigateTo("/");
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
-      toast.error(error.response?.data?.message || "Please fill the required fields", {
-        duration: 3000,
-      });
+      console.log("Login error:", error);
+      
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        toast.error("Cannot connect to server. Please check if backend is running.", {
+          duration: 5000,
+        });
+      } else if (error.response?.status === 401) {
+        toast.error("Invalid email or password", {
+          duration: 3000,
+        });
+      } else if (error.response?.data?.message) {
+        toast.error(error.response.data.message, {
+          duration: 3000,
+        });
+      } else {
+        toast.error("Login failed. Please try again.", {
+          duration: 3000,
+        });
+      }
     }
   };
 
