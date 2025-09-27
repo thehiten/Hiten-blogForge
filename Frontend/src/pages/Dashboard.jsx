@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Navbar from "../components/Navbar";
 import Sidebar from "../dashboard/Sidebar";
 import MyProfile from "../dashboard/MyProfile";
 import MyBlog from "../dashboard/MyBlog";
@@ -140,9 +141,11 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
+    <>
+      <Navbar />
+      <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
       <Sidebar component={component} setComponent={setComponent}/>
-      <div className="flex-1 ml-64 p-6 overflow-auto">
+        <div className="flex-1 ml-64 pt-20 p-6 overflow-auto">
         <AnimatePresence mode="wait">
           {loading && component === "Dashboard" ? (
             <motion.div
@@ -461,7 +464,7 @@ function Dashboard() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <MyProfile />
+          <MyProfile />
             </motion.div>
           ) : component === "My Blogs" ? (
             <motion.div
@@ -473,7 +476,7 @@ function Dashboard() {
             >
               <MyBlog />
             </motion.div>
-          ) : component === "Create Blog" ? (
+        ) : component === "Create Blog" ? (
             <motion.div
               key="create"
               initial={{ opacity: 0, x: 20 }}
@@ -481,9 +484,9 @@ function Dashboard() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <CreateBlog />
+          <CreateBlog />
             </motion.div>
-          ) : component === "Update" ? (
+        ) : component === "Update" ? (
             <motion.div
               key="update"
               initial={{ opacity: 0, x: 20 }}
@@ -491,12 +494,13 @@ function Dashboard() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <Update />
+          <Update />
             </motion.div>
           ) : null}
         </AnimatePresence>
       </div>
     </div>
+    </>
   );
 }
 
