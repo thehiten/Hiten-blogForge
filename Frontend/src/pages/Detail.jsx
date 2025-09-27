@@ -21,7 +21,8 @@ import {
   IoPrintOutline,
   IoTextOutline,
   IoImageOutline,
-  IoCodeSlashOutline
+  IoCodeSlashOutline,
+  IoBookOutline
 } from 'react-icons/io5';
 import { useAuth } from '../context/AuthProvider';
 import toast from 'react-hot-toast';
