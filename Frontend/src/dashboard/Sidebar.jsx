@@ -58,7 +58,7 @@ function Sidebar({ setComponent }) {
         </div>
         <h2 className="text-xl font-bold mb-4 text-center">{user?.name}</h2>
         <ul className="space-y-5">
-          {["My Blogs", "Create Blog", "My Profile"].map((component) => (
+          {["Dashboard", "My Blogs", "Create Blog", "My Profile"].map((component) => (
             <li key={component}>
               <button
                 onClick={() => setComponent(component)}
