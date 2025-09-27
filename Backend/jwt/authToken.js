@@ -15,7 +15,7 @@ export const createTokenAndSaveCookies = async (userId, res) => {
       secure: process.env.NODE_ENV === 'production', // Use only in HTTPS for production
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Use 'lax' for localhost development
       path: '/', // Ensure cookie is available for all paths
-      domain: process.env.NODE_ENV === 'production' ? undefined : 'localhost', // Set domain for localhost
+      // Remove domain setting for localhost - let browser handle it automatically
     });
 
     console.log('Token created and cookie set:', token); // Log for debugging
@@ -24,8 +24,7 @@ export const createTokenAndSaveCookies = async (userId, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      path: '/',
-      domain: process.env.NODE_ENV === 'production' ? undefined : 'localhost'
+      path: '/'
     });
     return token;
   } catch (error) {

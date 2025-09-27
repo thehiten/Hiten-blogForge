@@ -60,9 +60,9 @@ function Register() {
         }
       );
       console.log(response);
-      localStorage.setItem("jwt", response.data.token);
+      // Don't store token in localStorage - backend handles cookies
 
-      toast.success(response.message|| "User register successfully");
+      toast.success(response.data.message || "User register successfully");
       setProfile(response.data);
       setIsAuthenticated(true);
 
