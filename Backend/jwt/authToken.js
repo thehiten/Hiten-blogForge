@@ -13,10 +13,20 @@ export const createTokenAndSaveCookies = async (userId, res) => {
       expires: new Date(Date.now() + 3600000), // 1 hour
       httpOnly: true, // Prevent client-side JavaScript access
       secure: process.env.NODE_ENV === 'production', // Use only in HTTPS for production
-      sameSite: 'none', // Allow cross-origin cookies
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Use 'lax' for localhost development
+      path: '/', // Ensure cookie is available for all paths
+      domain: process.env.NODE_ENV === 'production' ? undefined : 'localhost', // Set domain for localhost
     });
 
-    console.log('Token:', token); // Log for debugging
+    console.log('Token created and cookie set:', token); // Log for debugging
+    console.log('Cookie settings:', {
+      expires: new Date(Date.now() + 3600000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
+      domain: process.env.NODE_ENV === 'production' ? undefined : 'localhost'
+    });
     return token;
   } catch (error) {
     console.error('Error creating token or setting cookie:', error);

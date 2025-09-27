@@ -7,16 +7,21 @@ import jwt from "jsonwebtoken";
 export const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
+    console.log("Auth middleware - token:", token ? "present" : "missing");
+    console.log("Auth middleware - cookies:", req.cookies);
     
     if (!token) {
+      console.log("Auth middleware - No token provided");
       return res.status(401).json({ error: "No token provided" });
     }
     const decoded = jwt.verify(token, process.env.JWT_TOKEN);
     const user = await User.findById(decoded.userId);
     if (!user) {
+      console.log("Auth middleware - User not found");
       return res.status(403).json({ error: "Unauthorized access" });
     }
     req.user = user;
+    console.log("Auth middleware - User authenticated:", user.email);
 
     next();
   } catch (error) {

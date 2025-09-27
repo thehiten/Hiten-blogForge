@@ -21,7 +21,8 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   const { blogs, isAuthenticated } = useAuth();
-  console.log(blogs);
+  console.log("App - isAuthenticated:", isAuthenticated);
+  console.log("App - blogs:", blogs);
   const location = useLocation(); // Get the current route (URL path)
 
   // Only hide Navbar and Footer on these specific paths

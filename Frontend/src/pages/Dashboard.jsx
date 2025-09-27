@@ -14,9 +14,9 @@ function Dashboard() {
   console.log(isAuthenticated);
 
   return (
-    <div className="">
+    <div className="flex min-h-screen">
       <Sidebar component={component} setComponent={setComponent}/>
-      <div className="">
+      <div className="flex-1 ml-64 p-4">
         {component === "My Profile" ? (
           <MyProfile />
         ) : component === "Create Blog" ? (

@@ -11,7 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const { isAuthenticated, setIsAuthenticated, setProfile } = useAuth();
+  const { isAuthenticated, setIsAuthenticated, setProfile, fetchProfile } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,16 +45,40 @@ function Login() {
       
       
       console.log(response);
-      localStorage.setItem("jwt", response.data.token);
+      // Don't store token in localStorage - backend handles cookies
       toast.success(response.data.message || "User Login successfully");
 
+      // Set profile information from response
+      if (response.data.user) {
+        setProfile({
+          user: {
+            role: response.data.user.role,
+            email: response.data.user.email,
+            name: response.data.user.name
+          }
+        });
+      }
+
       // Reset form fields
-      setIsAuthenticated(true);
       setEmail("");
       setPassword("");
       setRole("");
 
-      navigateTo("/");
+      // Set authentication state
+      console.log("Setting isAuthenticated to true");
+      setIsAuthenticated(true);
+      
+      // Wait a moment for state to update, then navigate
+      setTimeout(() => {
+        console.log("Navigating to home page");
+        navigateTo("/");
+        
+        // Fetch complete profile data from server after navigation
+        setTimeout(() => {
+          console.log("Fetching profile after navigation");
+          fetchProfile();
+        }, 200);
+      }, 100);
     } catch (error) {
       console.log("Login error:", error);
       

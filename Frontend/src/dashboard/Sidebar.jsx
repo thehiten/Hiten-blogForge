@@ -87,10 +87,6 @@ function Sidebar({ setComponent }) {
         </ul>
       </div>
 
-      {/* Main content area */}
-      <div className={`flex-grow ml-64 p-4 ${show ? 'hidden' : 'block'}`}>
-        {/* Render your main content here */}
-      </div>
     </div>
   );
 }
