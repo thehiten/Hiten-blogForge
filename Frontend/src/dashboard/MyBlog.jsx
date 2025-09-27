@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Pagination from "../components/Pagination";
+import LoadMore from "../components/LoadMore";
 import { 
   IoCreateOutline, 
   IoTrashOutline, 
@@ -14,7 +16,10 @@ import {
   IoPencilOutline,
   IoEllipsisVerticalOutline,
   IoCheckmarkCircleOutline,
-  IoWarningOutline
+  IoWarningOutline,
+  IoSettingsOutline,
+  IoGridOutline,
+  IoListOutline
 } from "react-icons/io5";
 import toast from "react-hot-toast";
 
@@ -22,6 +27,13 @@ function MyBlog() {
   const [myBlogs, setMyBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [paginationMode, setPaginationMode] = useState("pagination");
+  const [displayedBlogs, setDisplayedBlogs] = useState([]);
+  const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
     const fetchMyBlogs = async () => {
@@ -42,6 +54,18 @@ function MyBlog() {
     fetchMyBlogs();
   }, []);
 
+  // Update displayed blogs based on pagination
+  useEffect(() => {
+    if (paginationMode === "pagination") {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      setDisplayedBlogs(myBlogs.slice(startIndex, endIndex));
+    } else {
+      const endIndex = currentPage * itemsPerPage;
+      setDisplayedBlogs(myBlogs.slice(0, endIndex));
+    }
+  }, [myBlogs, currentPage, itemsPerPage, paginationMode]);
+
   const handleDelete = async (blogId) => {
     try {
       setDeleting(blogId);
@@ -57,6 +81,19 @@ function MyBlog() {
       setDeleting(null);
     }
   };
+
+  // Pagination handlers
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLoadMore = () => {
+    setCurrentPage(prev => prev + 1);
+  };
+
+  const totalPages = Math.ceil(myBlogs.length / itemsPerPage);
+  const hasMore = displayedBlogs.length < myBlogs.length;
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -132,8 +169,10 @@ function MyBlog() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+            className="space-y-6 mb-8"
           >
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="card p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <IoBookOutline className="w-6 h-6 text-white" />
@@ -167,6 +206,79 @@ function MyBlog() {
               </h3>
               <p className="text-neutral-600 dark:text-neutral-400">This Week</p>
             </div>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div className="flex items-center gap-4">
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 rounded-lg p-1 shadow-soft border border-neutral-200 dark:border-neutral-700">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2 rounded-md transition-colors ${
+                      viewMode === "grid"
+                        ? "bg-blue-500 text-white"
+                        : "text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    }`}
+                  >
+                    <IoGridOutline className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2 rounded-md transition-colors ${
+                      viewMode === "list"
+                        ? "bg-blue-500 text-white"
+                        : "text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    }`}
+                  >
+                    <IoListOutline className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Pagination Mode Toggle */}
+                <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 rounded-lg p-1 shadow-soft border border-neutral-200 dark:border-neutral-700">
+                  <button
+                    onClick={() => setPaginationMode("pagination")}
+                    className={`px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+                      paginationMode === "pagination"
+                        ? "bg-blue-500 text-white"
+                        : "text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    }`}
+                  >
+                    Pages
+                  </button>
+                  <button
+                    onClick={() => setPaginationMode("loadmore")}
+                    className={`px-3 py-2 text-xs font-medium rounded-md transition-colors ${
+                      paginationMode === "loadmore"
+                        ? "bg-blue-500 text-white"
+                        : "text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    }`}
+                  >
+                    Load More
+                  </button>
+                </div>
+              </div>
+
+              {/* Items Per Page Control */}
+              <div className="flex items-center gap-2">
+                <IoSettingsOutline className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
+                <span className="text-sm text-neutral-600 dark:text-neutral-400">Items per page:</span>
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-1 text-sm text-neutral-700 dark:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value={6}>6</option>
+                  <option value={9}>9</option>
+                  <option value={12}>12</option>
+                  <option value={18}>18</option>
+                </select>
+              </div>
+            </div>
           </motion.div>
         )}
 
@@ -184,15 +296,19 @@ function MyBlog() {
                 <LoadingCard key={i} />
               ))}
             </motion.div>
-          ) : myBlogs && myBlogs.length > 0 ? (
+          ) : displayedBlogs && displayedBlogs.length > 0 ? (
             <motion.div
-              key="content"
+              key={`${viewMode}-${currentPage}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                  : "space-y-6"
+              }
             >
-              {myBlogs.map((element, index) => (
+              {displayedBlogs.map((element, index) => (
                 <motion.div
                   key={element._id}
                   initial={{ opacity: 0, y: 20 }}
@@ -332,6 +448,36 @@ function MyBlog() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Pagination or Load More */}
+        {!loading && myBlogs.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-12"
+          >
+            {paginationMode === "pagination" ? (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+                totalItems={myBlogs.length}
+                className="justify-center"
+              />
+            ) : (
+              <LoadMore
+                hasMore={hasMore}
+                loading={false}
+                onLoadMore={handleLoadMore}
+                loadingText="Loading more blogs..."
+                loadMoreText="Load More Blogs"
+                noMoreText="You've reached the end! 🎉"
+              />
+            )}
+          </motion.div>
+        )}
       </div>
     </div>
   );
