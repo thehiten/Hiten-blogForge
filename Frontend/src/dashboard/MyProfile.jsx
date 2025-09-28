@@ -62,7 +62,7 @@ function MyProfile() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/blog/getMyBlog", {
+        const response = await axios.get("https://hiten-blogforge-1.onrender.com/api/blog/getMyBlog", {
           withCredentials: true,
         });
         const blogs = response.data || [];

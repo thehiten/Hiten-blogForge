@@ -37,7 +37,7 @@ app.use(fileUpload({
 
 // Middleware for CORS
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://hiten-blogforge-1.onrender.com',
   credentials: true
 }));
 
@@ -78,5 +78,5 @@ app.get('*', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  console.log(`CORS enabled for origin: http://localhost:5173`);
+  console.log(`CORS enabled for origin: https://hiten-blogforge-1.onrender.com`);
 });

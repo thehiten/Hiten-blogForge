@@ -27,7 +27,7 @@ function Sidebar({ component, setComponent }) {
   // Handle user logout
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/user/logout", {}, {
+      await axios.post("https://hiten-blogforge-1.onrender.com/api/user/logout", {}, {
         withCredentials: true
       });
       setIsAuthenticated(false);

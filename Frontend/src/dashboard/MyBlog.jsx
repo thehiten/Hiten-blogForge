@@ -39,7 +39,7 @@ function MyBlog() {
     const fetchMyBlogs = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/api/blog/getMyBlog", {
+        const response = await axios.get("https://hiten-blogforge-1.onrender.com/api/blog/getMyBlog", {
           withCredentials: true,
         });
         setMyBlogs(response.data);
@@ -68,7 +68,7 @@ function MyBlog() {
   const handleDelete = async (blogId) => {
     try {
       setDeleting(blogId);
-      await axios.delete(`http://localhost:3000/api/blog/delete/${blogId}`, {
+      await axios.delete(`https://hiten-blogforge-1.onrender.com/api/blog/delete/${blogId}`, {
         withCredentials: true,
       });
       setMyBlogs(myBlogs.filter((blog) => blog._id !== blogId));

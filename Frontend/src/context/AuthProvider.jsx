@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   const fetchProfile = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/user/getMyProfile",
+        "https://hiten-blogforge-1.onrender.com/api/user/getMyProfile",
         {
           withCredentials: true,
           headers: {
@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
   const checkAuthStatus = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/user/getMyProfile",
+        "https://hiten-blogforge-1.onrender.com/api/user/getMyProfile",
         {
           withCredentials: true,
           headers: {
@@ -86,7 +86,7 @@ export function AuthProvider({ children }) {
     // Fetch blog data
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/blog/getBlog/");
+        const response = await axios.get("https://hiten-blogforge-1.onrender.com/api/blog/getBlog/");
         setBlogs(response.data);
       } catch (error) {
       }

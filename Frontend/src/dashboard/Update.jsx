@@ -33,7 +33,7 @@ function Update() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3000/api/blog/getSingleBlog/${id}`, {
+        const { data } = await axios.get(`https://hiten-blogforge-1.onrender.com/api/blog/getSingleBlog/${id}`, {
           withCredentials: true,
         });
         setTitle(data.title);
@@ -69,7 +69,7 @@ function Update() {
 
     try {
       // Perform the update API request
-      const response = await axios.put(`http://localhost:3000/api/blog/updateBlog/${id}`, formData, {
+      const response = await axios.put(`https://hiten-blogforge-1.onrender.com/api/blog/updateBlog/${id}`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

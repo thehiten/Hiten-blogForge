@@ -45,7 +45,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/user/logout", {}, {
+      await axios.post("https://hiten-blogforge-1.onrender.com/api/user/logout", {}, {
         withCredentials: true,
       });
       clearAuth(); // Use clearAuth to properly clear all auth data

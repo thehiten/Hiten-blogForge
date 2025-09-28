@@ -51,7 +51,7 @@ function Detail() {
         const fetchBlog = async () => {
             try {
                 setLoading(true);
-                const { data } = await axios.get(`http://localhost:3000/api/blog/getSingleBlog/${id}`, {
+                const { data } = await axios.get(`https://hiten-blogforge-1.onrender.com/api/blog/getSingleBlog/${id}`, {
                     withCredentials: true,
                 });
                 setBlog(data);

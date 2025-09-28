@@ -13,7 +13,7 @@ function Creator() {
     const fetchAdmins = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/api/user/getAdmins', {
+        const response = await axios.get('https://hiten-blogforge-1.onrender.com/api/user/getAdmins', {
           withCredentials: true
         });
         setAdmins(response.data);

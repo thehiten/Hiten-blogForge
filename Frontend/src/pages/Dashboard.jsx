@@ -72,7 +72,7 @@ function Dashboard() {
       try {
         setLoading(true);
         const [blogsResponse] = await Promise.all([
-          axios.get("http://localhost:3000/api/blog/getMyBlog", {
+          axios.get("https://hiten-blogforge-1.onrender.com/api/blog/getMyBlog", {
             withCredentials: true,
           })
         ]);
