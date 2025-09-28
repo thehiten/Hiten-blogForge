@@ -102,8 +102,8 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-            Discover Amazing
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-neutral-900 dark:text-neutral-100 mb-4 leading-tight">
+            <span className="block">Discover Amazing</span>
             <span className="text-gradient block">Stories & Insights</span>
           </h1>
           <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
