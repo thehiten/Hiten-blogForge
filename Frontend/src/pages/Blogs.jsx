@@ -29,7 +29,7 @@ function Blogs() {
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   const [paginationMode, setPaginationMode] = useState("pagination"); // pagination or loadmore
   const [displayedBlogs, setDisplayedBlogs] = useState([]);
 
@@ -118,80 +118,86 @@ function Blogs() {
     return formatDate(dateString);
   };
 
-  // Blog Card Component
+  // Compact Blog Card Component
   const BlogCard = ({ blog, index }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      transition={{ duration: 0.3, delay: index * 0.05 }}
       className="group"
     >
       <Link
         to={`/blog/${blog._id}`}
         className="block h-full"
       >
-        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-soft border border-neutral-200 dark:border-neutral-700 overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 group-hover:-translate-y-1">
-          {/* Image */}
+        <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group-hover:-translate-y-1">
+          {/* Compact Image */}
           <div className="relative overflow-hidden">
             <img
               src={blog.blogImage?.url || '/api/placeholder/400/250'}
               alt={blog.title}
-              className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-105"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Blog+Post';
+              }}
             />
-            <div className="absolute top-4 left-4">
-              <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+            <div className="absolute top-2 left-2">
+              <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                 Featured
               </span>
             </div>
-            <div className="absolute top-4 right-4 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center gap-1">
-              <IoEyeOutline className="w-3 h-3 text-neutral-600 dark:text-neutral-400" />
+            <div className="absolute top-2 right-2 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+              <IoEyeOutline className="w-2 h-2 text-neutral-600 dark:text-neutral-400" />
               <span className="text-xs text-neutral-600 dark:text-neutral-400">
                 {blog.views || 0}
               </span>
             </div>
           </div>
 
-          {/* Content */}
-          <div className="p-6">
-            <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          {/* Compact Content */}
+          <div className="p-4">
+            <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {blog.title}
             </h3>
             
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2 mb-3">
               <div className="relative">
                 <img
                   src={blog.adminPhoto || '/api/placeholder/40/40'}
                   alt={blog.adminName}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-neutral-700 shadow-md"
+                  className="w-6 h-6 rounded-full object-cover border border-white dark:border-neutral-700 shadow-sm"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/24x24/6366f1/ffffff?text=' + (blog.adminName?.charAt(0) || 'A');
+                  }}
                 />
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-neutral-800"></div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full border border-white dark:border-neutral-800"></div>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-neutral-900 dark:text-neutral-100 text-sm truncate">
+                <p className="font-medium text-neutral-900 dark:text-neutral-100 text-xs truncate">
                   {blog.adminName}
                 </p>
-                <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
-                  <IoTimeOutline className="w-3 h-3" />
+                <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
+                  <IoTimeOutline className="w-2 h-2" />
                   <span>{getRelativeTime(blog.createdAt)}</span>
                 </div>
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-700">
-              <div className="flex items-center gap-4">
+            {/* Compact Stats */}
+            <div className="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-neutral-700">
+              <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
-                  <IoEyeOutline className="w-3 h-3" />
-                  <span>{blog.views || 0} views</span>
+                  <IoEyeOutline className="w-2 h-2" />
+                  <span>{blog.views || 0}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
-                  <IoCalendarOutline className="w-3 h-3" />
+                  <IoCalendarOutline className="w-2 h-2" />
                   <span>{formatDate(blog.createdAt)}</span>
                 </div>
               </div>
               <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 text-xs font-medium">
-                <span>Read more</span>
-                <IoTrendingUpOutline className="w-3 h-3" />
+                <span>Read</span>
+                <IoTrendingUpOutline className="w-2 h-2" />
               </div>
             </div>
           </div>
@@ -279,7 +285,7 @@ function Blogs() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 pt-20">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
@@ -298,7 +304,7 @@ function Blogs() {
         className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-16 overflow-hidden"
       >
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -338,7 +344,7 @@ function Blogs() {
       </motion.div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-6 lg:px-8 py-8">
         {/* Controls */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -428,10 +434,10 @@ function Blogs() {
                 }}
                 className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-1 text-sm text-neutral-700 dark:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value={6}>6</option>
                 <option value={12}>12</option>
-                <option value={18}>18</option>
-                <option value={24}>24</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+                <option value={40}>40</option>
               </select>
             </div>
           </div>
@@ -448,8 +454,8 @@ function Blogs() {
               transition={{ duration: 0.3 }}
               className={
                 viewMode === "grid"
-                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  : "space-y-6"
+                  ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                  : "space-y-4"
               }
             >
               {displayedBlogs.map((blog, index) =>

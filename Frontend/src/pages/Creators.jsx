@@ -43,10 +43,8 @@ function Creator() {
         const response = await axios.get('http://localhost:3000/api/user/getAdmins', {
           withCredentials: true
         });
-        console.log(response.data);
         setAdmins(response.data || []);
       } catch (error) {
-        console.error('Error fetching creators:', error);
       } finally {
         setLoading(false);
       }

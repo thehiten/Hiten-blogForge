@@ -36,14 +36,12 @@ function Update() {
         const { data } = await axios.get(`http://localhost:3000/api/blog/getSingleBlog/${id}`, {
           withCredentials: true,
         });
-        console.log(data); // Log the entire response data
         setTitle(data.title);
         setCategory(data.category);
         setAbout(data.about);
-        setBlogImagePreview(data.blogImage.url); // Corrected typo from vlogImage to blogImage
+        setBlogImagePreview(data.blogImage?.url || ""); // Safe access to blogImage.url
         
       } catch (error) {
-        console.error(error);
       }
     };
 
@@ -82,7 +80,6 @@ function Update() {
       navigateTo("/");
 
     } catch (error) {
-      console.error(error);
       toast.error(error.response?.data?.message || "Error updating blog");
     }
   };
@@ -91,9 +88,9 @@ function Update() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
         <form className="space-y-6" onSubmit={handleUpdate}>
-          <div className="font-semibold text-xl text-center text-blue-400">
-            <span className="text-purple-400">Hit</span>-Blogs
-          </div>
+            <div className="font-semibold text-xl text-center text-blue-400">
+              <span className="text-purple-400">Blog</span>Forge
+            </div>
           <h1 className="text-xl font-semibold text-center">Update Blog</h1>
 
           {/* Blog Title */}

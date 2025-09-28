@@ -58,7 +58,6 @@ function Login() {
         }
       );
       
-      console.log(response);
       toast.success(response.data.message || "Login successful!");
 
       // Set profile information from response
@@ -78,22 +77,18 @@ function Login() {
       setRole("");
 
       // Set authentication state
-      console.log("Setting isAuthenticated to true");
       setIsAuthenticated(true);
       
       // Wait a moment for state to update, then navigate
       setTimeout(() => {
-        console.log("Navigating to home page");
         navigateTo("/");
         
         // Fetch complete profile data from server after navigation
         setTimeout(() => {
-          console.log("Fetching profile after navigation");
           fetchProfile();
         }, 200);
       }, 100);
     } catch (error) {
-      console.log("Login error:", error);
       
       if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
         toast.error("Cannot connect to server. Please check if backend is running.", {

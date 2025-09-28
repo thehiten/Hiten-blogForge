@@ -119,7 +119,6 @@ function Register() {
         }
       );
       
-      console.log(response);
       toast.success(response.data.message || "Registration successful!");
       setProfile(response.data);
       setIsAuthenticated(true);
@@ -144,7 +143,6 @@ function Register() {
         fileInputRef.current.value = "";
       }
     } catch (error) {
-      console.error(error);
       toast.error(error.response?.data?.message || "Registration failed. Please try again.");
     } finally {
       setIsLoading(false);

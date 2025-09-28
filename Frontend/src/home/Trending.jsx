@@ -12,7 +12,9 @@ import {
   IoTrendingUpOutline,
   IoStarOutline,
   IoChevronForwardOutline,
-  IoPersonCircleOutline
+  IoPersonCircleOutline,
+  IoFlameOutline,
+  IoArrowForwardOutline
 } from "react-icons/io5";
 
 function Trending() {
@@ -27,19 +29,19 @@ function Trending() {
     return () => clearTimeout(timer);
   }, [blogs]);
 
-  // Responsive settings for the carousel
+  // Enhanced responsive settings for the carousel - smaller cards
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5,
+      items: 6,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
-      items: 3,
+      items: 4,
     },
     mobile: {
       breakpoint: { max: 768, min: 0 },
@@ -47,18 +49,19 @@ function Trending() {
     },
   };
 
-  // Loading skeleton component
+  // Enhanced loading skeleton component - smaller cards
   const LoadingCard = () => (
-    <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-soft border border-neutral-200 dark:border-neutral-700 overflow-hidden">
-      <div className="skeleton h-32 w-full"></div>
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden animate-pulse">
+      <div className="h-32 bg-gradient-to-r from-gray-200 to-gray-300"></div>
       <div className="p-4 space-y-3">
-        <div className="skeleton h-5 w-3/4 rounded"></div>
-        <div className="skeleton h-3 w-full rounded"></div>
-        <div className="flex items-center space-x-2">
-          <div className="skeleton w-8 h-8 rounded-full"></div>
+        <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-3/4"></div>
+        <div className="h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-full"></div>
+        <div className="h-3 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-2/3"></div>
+        <div className="flex items-center space-x-2 pt-2">
+          <div className="w-6 h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full"></div>
           <div className="space-y-1">
-            <div className="skeleton h-3 w-16 rounded"></div>
-            <div className="skeleton h-2 w-12 rounded"></div>
+            <div className="h-2 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-16"></div>
+            <div className="h-2 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-12"></div>
           </div>
         </div>
       </div>
@@ -79,27 +82,29 @@ function Trending() {
   };
 
   return (
-    <section className="py-8 bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section className="py-16 bg-gradient-to-br from-orange-50 via-red-50 to-pink-50">
+      <div className="container mx-auto px-6 lg:px-8">
+        {/* Enhanced Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-6"
+          className="text-center mb-12"
         >
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <IoTrendingUpOutline className="w-6 h-6 text-gradient" />
-            <h2 className="text-2xl md:text-3xl font-bold text-gradient">
-              Trending Blogs
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full">
+              <IoFlameOutline className="w-6 h-6 text-white" />
+            </div>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+              Trending Now
             </h2>
           </div>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xl mx-auto">
-            Discover the most engaging content from our community
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Discover the hottest content that's setting the community on fire
           </p>
         </motion.div>
 
-        {/* Trending Blogs Carousel */}
+        {/* Enhanced Trending Blogs Carousel */}
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div
@@ -107,7 +112,7 @@ function Trending() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
             >
               {[1, 2, 3, 4].map((i) => (
                 <LoadingCard key={i} />
@@ -123,14 +128,17 @@ function Trending() {
               <Carousel
                 responsive={responsive}
                 itemClass="px-3"
-                containerClass="trending-carousel"
+                containerClass="pb-8"
                 showDots={true}
-                arrows={true}
                 infinite={true}
-                autoPlay={false}
+                autoPlay={true}
+                autoPlaySpeed={4000}
                 keyBoardControl={true}
-                customDot={<div className="w-2 h-2 bg-neutral-300 dark:bg-neutral-600 rounded-full mx-1"></div>}
-                customActiveDot={<div className="w-2 h-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full mx-1"></div>}
+                customTransition="all .5s"
+                transitionDuration={500}
+                removeArrowOnDeviceType={["tablet", "mobile"]}
+                dotListClass="custom-dot-list-style"
+                className="trending-carousel"
               >
                 {blogs.map((element, index) => (
                   <motion.div
@@ -144,75 +152,81 @@ function Trending() {
                       to={`/blog/${element._id}`}
                       className="group block h-full"
                     >
-                      <div className="card card-hover h-full flex flex-col overflow-hidden">
-                        {/* Image Section */}
+                      <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col overflow-hidden border border-gray-100 hover:border-orange-200">
+                        {/* Compact Image Section */}
                         <div className="relative overflow-hidden">
                           <img
                             src={element.blogImage?.url || '/api/placeholder/400/250'}
                             className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500"
                             alt={element.title}
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/400x200/ff6b6b/ffffff?text=Trending+Blog';
+                            }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                           
-                          {/* Trending Badge */}
-                          <div className="absolute top-2 left-2">
-                            <div className="flex items-center gap-1 bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-medium shadow-lg">
-                              <IoStarOutline className="w-2 h-2" />
-                              Trending
-                            </div>
-                          </div>
-
-                          {/* Read Time */}
-                          <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded text-xs">
+                          {/* Compact Read Time */}
+                          <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-xs">
                             <IoTimeOutline className="w-2 h-2 inline mr-1" />
                             5m
                           </div>
+
+                          {/* Hover Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
 
-                        {/* Content Section */}
+                        {/* Compact Content Section */}
                         <div className="p-4 flex flex-col flex-grow">
-                          <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-gradient transition-colors duration-200 text-truncate-2">
+                          <h3 className="text-sm font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-200 mb-2 line-clamp-2">
                             {element.title}
                           </h3>
                           
-                          <p className="text-neutral-600 dark:text-neutral-400 text-xs mb-3 text-truncate-2 flex-grow">
+                          <p className="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">
                             {element.description || "Discover amazing insights and stories from our community..."}
                           </p>
 
-                          {/* Stats */}
-                          <div className="flex items-center gap-3 mb-3 text-xs text-neutral-500 dark:text-neutral-400">
+                          {/* Compact Stats */}
+                          <div className="flex items-center gap-2 mb-3 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
-                              <IoEyeOutline className="w-3 h-3" />
+                              <IoEyeOutline className="w-3 h-3 text-blue-500" />
                               <span>1.2k</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <IoHeartOutline className="w-3 h-3" />
+                              <IoHeartOutline className="w-3 h-3 text-red-500" />
                               <span>89</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <IoBookmarkOutline className="w-3 h-3" />
+                              <IoBookmarkOutline className="w-3 h-3 text-purple-500" />
                               <span>34</span>
                             </div>
                           </div>
 
-                          {/* Author Section */}
-                          <div className="flex items-center justify-between pt-2 border-t border-neutral-200 dark:border-neutral-700">
+                          {/* Compact Author Section */}
+                          <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                             <div className="flex items-center gap-2">
-                              <img
-                                src={element.adminPhoto || '/api/placeholder/40/40'}
-                                alt={element.adminName}
-                                className="w-8 h-8 rounded-full object-cover border-2 border-white dark:border-neutral-800 shadow-md"
-                              />
+                              <div className="relative">
+                                <img
+                                  src={element.adminPhoto || '/api/placeholder/40/40'}
+                                  alt={element.adminName}
+                                  className="w-6 h-6 rounded-full object-cover border border-white shadow-sm"
+                                  onError={(e) => {
+                                    e.target.src = 'https://via.placeholder.com/24x24/6366f1/ffffff?text=' + (element.adminName?.charAt(0) || 'A');
+                                  }}
+                                />
+                                <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full border border-white"></div>
+                              </div>
                               <div>
-                                <p className="font-semibold text-neutral-900 dark:text-neutral-100 text-xs">
+                                <p className="font-medium text-gray-800 text-xs">
                                   {element.adminName || 'Anonymous'}
                                 </p>
-                                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                                <p className="text-xs text-gray-500">
                                   {formatDate(element.createdAt)}
                                 </p>
                               </div>
                             </div>
-                            <IoChevronForwardOutline className="w-4 h-4 text-neutral-400 group-hover:text-primary-500 group-hover:translate-x-1 transition-all duration-200" />
+                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                              <IoArrowForwardOutline className="w-3 h-3" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -227,30 +241,73 @@ function Trending() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="text-center py-8"
+              className="text-center py-16"
             >
-              <div className="max-w-sm mx-auto">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <IoBookmarkOutline className="w-8 h-8 text-primary-500" />
+              <div className="max-w-md mx-auto">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <IoFlameOutline className="w-10 h-10 text-orange-500" />
                 </div>
-                <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-                  No Trending Blogs Yet
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                  No Trending Content Yet
                 </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
-                  Be the first to create amazing content and watch it trend!
+                <p className="text-gray-600 mb-6">
+                  Be the first to create amazing content and watch it trend! Your creativity could be the next big thing.
                 </p>
                 <Link
                   to="/dashboard"
-                  className="btn-primary text-sm inline-flex items-center gap-2"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  <IoPersonCircleOutline className="w-4 h-4" />
+                  <IoPersonCircleOutline className="w-5 h-5 mr-2" />
                   Create Your First Blog
                 </Link>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* View All Button */}
+        {blogs && blogs.length > 0 && (
+          <div className="text-center mt-12">
+            <Link
+              to="/blogs"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              Explore All Trending Blogs
+              <IoArrowForwardOutline className="ml-2 w-5 h-5" />
+            </Link>
+          </div>
+        )}
       </div>
+
+      {/* Custom Styles */}
+      <style jsx>{`
+        .trending-carousel .react-multi-carousel-dot-list {
+          bottom: -40px;
+        }
+        .trending-carousel .react-multi-carousel-dot button {
+          border: none;
+          background: #fbbf24;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          margin: 0 4px;
+        }
+        .trending-carousel .react-multi-carousel-dot--active button {
+          background: linear-gradient(to right, #f97316, #dc2626);
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </section>
   );
 }

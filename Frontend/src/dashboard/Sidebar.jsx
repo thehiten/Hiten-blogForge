@@ -53,14 +53,14 @@ function Sidebar({ component, setComponent }) {
       {/* Mobile overlay */}
       {show && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+          className="fixed inset-0 bg-black/50 z-20 sm:hidden"
           onClick={() => setShow(false)}
         />
       )}
 
       {/* Menu icon for small screens */}
       <div
-        className="sm:hidden fixed top-4 left-4 z-50 cursor-pointer bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-2"
+        className="sm:hidden fixed top-14 sm:top-16 left-4 z-40 cursor-pointer bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-2"
         onClick={() => setShow(!show)}
       >
         {show ? (
@@ -74,7 +74,7 @@ function Sidebar({ component, setComponent }) {
       <div
         className={`${
           show ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 duration-300 ease-in-out w-72 h-full fixed z-50 shadow-2xl bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-900 border-r border-neutral-200 dark:border-neutral-700`}
+        } sm:translate-x-0 duration-300 ease-in-out w-72 h-full fixed z-30 shadow-2xl bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-900 border-r border-neutral-200 dark:border-neutral-700`}
       >
         {/* Profile Section */}
         <div className="p-6 border-b border-neutral-200 dark:border-neutral-700">

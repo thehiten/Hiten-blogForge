@@ -44,7 +44,6 @@ function MyBlog() {
         });
         setMyBlogs(response.data);
       } catch (error) {
-        console.error("Error fetching blogs:", error);
         toast.error("Failed to load your blogs");
       } finally {
         setLoading(false);
@@ -75,7 +74,6 @@ function MyBlog() {
       setMyBlogs(myBlogs.filter((blog) => blog._id !== blogId));
       toast.success("Blog deleted successfully");
     } catch (error) {
-      console.error("Error deleting blog:", error);
       toast.error("Failed to delete blog");
     } finally {
       setDeleting(null);
@@ -135,8 +133,8 @@ function MyBlog() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -146,7 +144,7 @@ function MyBlog() {
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gradient mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gradient mb-2">
                 My Blogs
               </h1>
               <p className="text-neutral-600 dark:text-neutral-400">

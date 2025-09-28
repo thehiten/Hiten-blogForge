@@ -22,10 +22,13 @@ import {
   IoTextOutline,
   IoImageOutline,
   IoCodeSlashOutline,
-  IoBookOutline
+  IoBookOutline,
+  IoChevronDownOutline,
+  IoChevronUpOutline
 } from 'react-icons/io5';
 import { useAuth } from '../context/AuthProvider';
 import toast from 'react-hot-toast';
+import ComingSoon from '../components/ComingSoon';
 
 function Detail() {
     const { id } = useParams();
@@ -40,6 +43,7 @@ function Detail() {
     const [views, setViews] = useState(0);
     const [relatedBlogs, setRelatedBlogs] = useState([]);
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const contentRef = useRef(null);
 
     // Fetch blog data on component mount
@@ -62,7 +66,6 @@ function Detail() {
                     setRelatedBlogs(related);
                 }
             } catch (error) {
-                console.error('Error fetching blog:', error);
                 setError('Failed to load blog');
                 toast.error('Failed to load blog');
             } finally {
@@ -227,7 +230,7 @@ function Detail() {
 
             {/* Navigation Header */}
             <div className="bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-40 pt-20">
-                <div className="container mx-auto px-4 py-4">
+                <div className="container mx-auto px-6 lg:px-8 py-6">
                     <div className="flex items-center justify-between">
                         <button
                             onClick={() => navigate(-1)}
@@ -238,135 +241,177 @@ function Detail() {
                         </button>
 
                         <div className="flex items-center gap-2">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={handleBookmark}
-                                className={`p-2 rounded-lg transition-colors ${
-                                    isBookmarked
-                                        ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400'
-                                        : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 hover:bg-yellow-100 hover:text-yellow-600 dark:hover:bg-yellow-900/20 dark:hover:text-yellow-400'
-                                }`}
-                            >
-                                <IoBookmarkOutline className="w-5 h-5" />
-                            </motion.button>
+                            <ComingSoon
+                                trigger={
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className={`p-2 rounded-lg transition-colors ${
+                                            isBookmarked
+                                                ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400'
+                                                : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 hover:bg-yellow-100 hover:text-yellow-600 dark:hover:bg-yellow-900/20 dark:hover:text-yellow-400'
+                                        }`}
+                                    >
+                                        <IoBookmarkOutline className="w-5 h-5" />
+                                    </motion.button>
+                                }
+                                title="Bookmark Feature"
+                                message="The bookmark functionality is coming soon! You'll be able to save your favorite posts for later reading."
+                            />
 
-                            <div className="relative">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => setShowShareMenu(!showShareMenu)}
-                                    className="p-2 bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 rounded-lg transition-colors"
-                                >
-                                    <IoShareSocialOutline className="w-5 h-5" />
-                                </motion.button>
-
-                                <AnimatePresence>
-                                    {showShareMenu && (
-                                        <motion.div
-                                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                            className="absolute right-0 top-full mt-2 bg-white dark:bg-neutral-800 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700 p-2 min-w-[200px]"
-                                        >
-                                            <button
-                                                onClick={() => handleShare('copy')}
-                                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700 rounded-lg transition-colors"
-                                            >
-                                                <IoCopyOutline className="w-4 h-4" />
-                                                <span className="text-sm">Copy Link</span>
-                                            </button>
-                                            <button
-                                                onClick={() => handleShare('twitter')}
-                                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700 rounded-lg transition-colors"
-                                            >
-                                                <IoGlobeOutline className="w-4 h-4" />
-                                                <span className="text-sm">Share on Twitter</span>
-                                            </button>
-                                            <button
-                                                onClick={() => handleShare('facebook')}
-                                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700 rounded-lg transition-colors"
-                                            >
-                                                <IoGlobeOutline className="w-4 h-4" />
-                                                <span className="text-sm">Share on Facebook</span>
-                                            </button>
-                                            <button
-                                                onClick={() => handleShare('linkedin')}
-                                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700 rounded-lg transition-colors"
-                                            >
-                                                <IoGlobeOutline className="w-4 h-4" />
-                                                <span className="text-sm">Share on LinkedIn</span>
-                                            </button>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
+                            <ComingSoon
+                                trigger={
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="p-2 bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 rounded-lg transition-colors"
+                                    >
+                                        <IoShareSocialOutline className="w-5 h-5" />
+                                    </motion.button>
+                                }
+                                title="Share Feature"
+                                message="The share functionality is coming soon! You'll be able to share posts on social media and with friends."
+                            />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-8">
-                <div className="max-w-4xl mx-auto">
-                    {/* Hero Section */}
+            <div className="container mx-auto px-6 lg:px-8 py-12">
+                <div className="max-w-5xl mx-auto">
+                    {/* Enhanced Hero Section */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="mb-8"
+                        className="mb-12"
                     >
                         {/* Category Badge */}
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.4, delay: 0.1 }}
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 shadow-lg"
+                        >
                             <IoCheckmarkCircleOutline className="w-4 h-4" />
                             {blog.category}
-                        </div>
+                        </motion.div>
 
                         {/* Title */}
-                        <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6 leading-tight">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-8 leading-tight"
+                        >
                             {blog.title}
-                        </h1>
+                        </motion.h1>
 
-                        {/* Description */}
-                        <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
-                            {blog.about}
-                        </p>
+                        {/* Enhanced Description with Read More */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="mb-8"
+                        >
+                            <div className="prose prose-lg max-w-none">
+                                <p className={`text-lg md:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed ${
+                                    !isDescriptionExpanded && blog.about && blog.about.length > 300 ? 'line-clamp-3' : ''
+                                }`}>
+                                    {blog.about}
+                                </p>
+                                
+                                {blog.about && blog.about.length > 300 && (
+                                    <button
+                                        onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                                        className="mt-4 inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+                                    >
+                                        {isDescriptionExpanded ? (
+                                            <>
+                                                <span>Read Less</span>
+                                                <IoChevronUpOutline className="w-4 h-4" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>Read More</span>
+                                                <IoChevronDownOutline className="w-4 h-4" />
+                                            </>
+                                        )}
+                                    </button>
+                                )}
+                            </div>
+                        </motion.div>
 
-                        {/* Meta Information */}
-                        <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
-                            <div className="flex items-center gap-2">
-                                <IoPersonOutline className="w-4 h-4" />
-                                <span className="font-medium text-neutral-700 dark:text-neutral-300">{blog.adminName}</span>
+                        {/* Enhanced Meta Information */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="flex flex-wrap items-center gap-8 text-sm"
+                        >
+                            <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700">
+                                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                    <IoPersonOutline className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Author</p>
+                                    <p className="font-semibold text-neutral-700 dark:text-neutral-300">{blog.adminName}</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <IoCalendarOutline className="w-4 h-4" />
-                                <span>{formatDate(blog.createdAt)}</span>
+                            
+                            <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700">
+                                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                                    <IoCalendarOutline className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Published</p>
+                                    <p className="font-semibold text-neutral-700 dark:text-neutral-300">{formatDate(blog.createdAt)}</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <IoTimeOutline className="w-4 h-4" />
-                                <span>{calculateReadingTime(blog.about)} min read</span>
+                            
+                            <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700">
+                                <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+                                    <IoTimeOutline className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Read Time</p>
+                                    <p className="font-semibold text-neutral-700 dark:text-neutral-300">{calculateReadingTime(blog.about)} min</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <IoEyeOutline className="w-4 h-4" />
-                                <span>{views.toLocaleString()} views</span>
+                            
+                            <div className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700">
+                                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
+                                    <IoEyeOutline className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Views</p>
+                                    <p className="font-semibold text-neutral-700 dark:text-neutral-300">{views.toLocaleString()}</p>
+                                </div>
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
 
-                    {/* Featured Image */}
+                    {/* Enhanced Featured Image */}
                     {blog.blogImage?.url && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="mb-8"
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="mb-12"
                         >
-                            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                            <div className="relative overflow-hidden rounded-3xl shadow-2xl group">
                                 <img
                                     src={blog.blogImage.url}
                                     alt={blog.title}
-                                    className="w-full h-96 md:h-[500px] object-cover"
+                                    className="w-full h-96 md:h-[600px] lg:h-[700px] object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                                <div className="absolute bottom-6 left-6 right-6">
+                                    <div className="bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-2xl p-4">
+                                        <p className="text-sm text-neutral-600 dark:text-neutral-400">Featured Image</p>
+                                        <p className="font-medium text-neutral-800 dark:text-neutral-200">{blog.title}</p>
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     )}
@@ -405,23 +450,31 @@ function Detail() {
                                     </div>
                                 </div>
                             </div>
-                            <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200">
-                                Follow
-                            </button>
+                            <ComingSoon
+                                trigger={
+                                    <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200">
+                                        Follow
+                                    </button>
+                                }
+                                title="Follow Feature"
+                                message="The follow functionality is coming soon! You'll be able to follow your favorite authors and get notified about their new posts."
+                            />
                         </div>
                     </motion.div>
 
-                    {/* Blog Content */}
+                    {/* Enhanced Blog Content */}
                     <motion.div
                         ref={contentRef}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
-                        className="prose prose-lg dark:prose-invert max-w-none mb-12"
+                        className="mb-12"
                     >
-                        <div className="bg-white dark:bg-neutral-800 rounded-2xl p-8 border border-neutral-200 dark:border-neutral-700">
-                            <div className="text-lg leading-relaxed text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap">
-                                {blog.about}
+                        <div className="bg-white dark:bg-neutral-800 rounded-3xl p-8 md:p-12 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+                            <div className="prose prose-lg md:prose-xl dark:prose-invert max-w-none">
+                                <div className="text-lg md:text-xl leading-relaxed md:leading-loose text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap font-light">
+                                    {blog.about}
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -435,20 +488,31 @@ function Detail() {
                     >
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-6">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={handleLike}
-                                    className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg transition-all duration-200"
-                                >
-                                    <IoHeartOutline className="w-5 h-5" />
-                                    <span className="font-medium">{likes}</span>
-                                </motion.button>
+                                <ComingSoon
+                                    trigger={
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg transition-all duration-200"
+                                        >
+                                            <IoHeartOutline className="w-5 h-5" />
+                                            <span className="font-medium">{likes}</span>
+                                        </motion.button>
+                                    }
+                                    title="Like Feature"
+                                    message="The like functionality is coming soon! You'll be able to like posts and see who else liked them."
+                                />
                                 
-                                <button className="flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg transition-all duration-200">
-                                    <IoChatbubbleOutline className="w-5 h-5" />
-                                    <span className="font-medium">Comment</span>
-                                </button>
+                                <ComingSoon
+                                    trigger={
+                                        <button className="flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg transition-all duration-200">
+                                            <IoChatbubbleOutline className="w-5 h-5" />
+                                            <span className="font-medium">Comment</span>
+                                        </button>
+                                    }
+                                    title="Comment System"
+                                    message="The comment system is coming soon! You'll be able to leave comments and engage in discussions with other readers."
+                                />
                             </div>
 
                             <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">

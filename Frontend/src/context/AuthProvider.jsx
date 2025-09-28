@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
   // Function to fetch profile data
   const fetchProfile = async () => {
     try {
-      console.log("Fetching profile...");
       const response = await axios.get(
         "http://localhost:3000/api/user/getMyProfile",
         {
@@ -22,12 +21,10 @@ export function AuthProvider({ children }) {
           },
         }
       );
-      console.log("Profile fetched successfully:", response.data);
       setProfile(response.data);
       setIsAuthenticated(true);
       return response.data;
     } catch (error) {
-      console.error("Error fetching profile", error);
       // Don't automatically set isAuthenticated to false on profile fetch failure
       // The user might still be authenticated even if profile fetch fails
       // Only reset auth state on explicit logout or if we're sure the session is invalid
@@ -51,7 +48,6 @@ export function AuthProvider({ children }) {
       setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.error("Auth check failed:", error);
       setIsAuthenticated(false);
       return false;
     }
@@ -64,7 +60,6 @@ export function AuthProvider({ children }) {
         const response = await axios.get("http://localhost:3000/api/blog/getBlog/");
         setBlogs(response.data);
       } catch (error) {
-        console.error("Error fetching blogs", error);
       }
     };
 
@@ -76,7 +71,6 @@ export function AuthProvider({ children }) {
       try {
         await checkAuthStatus();
       } catch (error) {
-        console.log("Auth check on mount failed, user not authenticated");
       }
     };
     

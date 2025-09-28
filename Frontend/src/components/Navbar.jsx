@@ -113,21 +113,21 @@ function Navbar() {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-medium border-b border-neutral-200/50 dark:border-neutral-700/50"
-            : "bg-transparent"
+            ? "bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md shadow-lg border-b border-neutral-200/50 dark:border-neutral-700/50"
+            : "bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm"
         }`}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="w-full px-3 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center space-x-2 group"
+              className="flex items-center space-x-1 sm:space-x-2 group flex-shrink-0"
             >
-              <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">H</span>
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xs sm:text-sm">H</span>
               </div>
-              <span className="text-xl font-display font-bold text-gradient">
+              <span className="text-base sm:text-lg lg:text-xl font-display font-bold text-gradient whitespace-nowrap">
                 BlogForge
               </span>
             </Link>
@@ -138,7 +138,7 @@ function Navbar() {
             </div>
 
             {/* Search Bar */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
               <form onSubmit={handleSearch} className="relative">
                 <div className="relative">
                   <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4" />
@@ -147,71 +147,71 @@ function Navbar() {
                     placeholder="Search blogs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-64 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                    className="pl-10 pr-4 py-2 w-48 lg:w-64 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   />
                 </div>
               </form>
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-3 flex-shrink-0">
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
+                className="p-1.5 sm:p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
                 aria-label="Toggle theme"
               >
                 {isDark ? (
-                  <IoSunnyOutline className="w-5 h-5 text-yellow-500" />
+                  <IoSunnyOutline className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
                 ) : (
-                  <IoMoonOutline className="w-5 h-5 text-neutral-600" />
+                  <IoMoonOutline className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-600" />
                 )}
               </button>
 
               {/* Mobile Search Toggle */}
               <button
                 onClick={() => setShowSearch(!showSearch)}
-                className="md:hidden p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
+                className="md:hidden p-1.5 sm:p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
                 aria-label="Toggle search"
               >
-                <IoSearchOutline className="w-5 h-5" />
+                <IoSearchOutline className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
               {/* Auth Buttons */}
-              <div className="hidden md:flex items-center space-x-2">
+              <div className="hidden md:flex items-center space-x-1 lg:space-x-2 flex-shrink-0">
                 {!isAuthenticated ? (
                   <>
                     <Link
                       to="/login"
-                      className="btn-ghost"
+                      className="px-2 lg:px-3 py-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap"
                     >
                       Sign In
                     </Link>
                     <Link
                       to="/register"
-                      className="btn-primary"
+                      className="px-2 lg:px-3 py-1.5 text-sm font-medium bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors whitespace-nowrap"
                     >
                       Sign Up
                     </Link>
                   </>
                 ) : (
-                  <div className="flex items-center space-x-2">
-                    <div className="flex items-center space-x-2 px-3 py-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
-                      <div className="w-6 h-6 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                  <div className="flex items-center space-x-1 lg:space-x-2">
+                    <div className="flex items-center space-x-1 lg:space-x-2 px-2 lg:px-3 py-1.5 lg:py-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                      <div className="w-5 h-5 lg:w-6 lg:h-6 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
                         <span className="text-white text-xs font-medium">
                           {profile?.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                         </span>
                       </div>
-                      <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                      <span className="text-xs lg:text-sm font-medium text-neutral-700 dark:text-neutral-300 hidden lg:block">
                         {profile?.user?.name || 'User'}
                       </span>
                     </div>
                     <button
                       onClick={handleLogout}
-                      className="p-2 rounded-lg bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-400 hover:bg-accent-200 dark:hover:bg-accent-900/50 transition-all duration-200"
+                      className="p-1.5 lg:p-2 rounded-lg bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-400 hover:bg-accent-200 dark:hover:bg-accent-900/50 transition-all duration-200"
                       aria-label="Logout"
                     >
-                      <IoLogOutOutline className="w-5 h-5" />
+                      <IoLogOutOutline className="w-4 h-4 lg:w-5 lg:h-5" />
                     </button>
                   </div>
                 )}
@@ -220,14 +220,14 @@ function Navbar() {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={handleClick}
-                className="lg:hidden p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
+                className="lg:hidden p-1.5 sm:p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-all duration-200"
                 aria-expanded={show}
                 aria-controls="mobile-menu"
               >
                 {show ? (
-                  <IoCloseSharp className="w-5 h-5" />
+                  <IoCloseSharp className="w-4 h-4 sm:w-5 sm:h-5" />
                 ) : (
-                  <IoMenuOutline className="w-5 h-5" />
+                  <IoMenuOutline className="w-4 h-4 sm:w-5 sm:h-5" />
                 )}
               </button>
             </div>
@@ -241,9 +241,9 @@ function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-neutral-200 dark:border-neutral-700"
+              className="md:hidden border-t border-neutral-200 dark:border-neutral-700 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm"
             >
-              <div className="px-4 py-3">
+              <div className="px-3 sm:px-4 py-3">
                 <form onSubmit={handleSearch} className="relative">
                   <IoSearchOutline className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4" />
                   <input
@@ -251,7 +251,7 @@ function Navbar() {
                     placeholder="Search blogs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   />
                 </form>
               </div>
@@ -276,11 +276,11 @@ function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white dark:bg-neutral-900 shadow-large z-50 lg:hidden"
+              className="fixed top-0 right-0 h-full w-72 sm:w-80 max-w-[85vw] bg-white dark:bg-neutral-900 shadow-large z-50 lg:hidden"
             >
               <div className="flex flex-col h-full">
                 {/* Mobile Menu Header */}
-                <div className="flex items-center justify-between p-6 border-b border-neutral-200 dark:border-neutral-700">
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-neutral-200 dark:border-neutral-700">
                   <span className="text-lg font-display font-bold text-gradient">
                     Menu
                   </span>
@@ -293,46 +293,46 @@ function Navbar() {
                 </div>
 
                 {/* Mobile Menu Content */}
-                <div className="flex-1 overflow-y-auto p-6">
-                  <div className="space-y-2">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+                  <div className="space-y-1 sm:space-y-2">
                     {renderLinks(true)}
                   </div>
 
                   {/* Mobile Auth Section */}
-                  <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-neutral-200 dark:border-neutral-700">
                     {!isAuthenticated ? (
-                      <div className="space-y-3">
+                      <div className="space-y-2 sm:space-y-3">
                         <Link
                           to="/login"
-                          className="flex items-center gap-2 w-full px-4 py-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                          className="flex items-center gap-2 w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors text-sm sm:text-base"
                           onClick={() => setShow(false)}
                         >
-                          <IoPersonOutline className="w-5 h-5" />
+                          <IoPersonOutline className="w-4 h-4 sm:w-5 sm:h-5" />
                           Sign In
                         </Link>
                         <Link
                           to="/register"
-                          className="flex items-center gap-2 w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                          className="flex items-center gap-2 w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm sm:text-base"
                           onClick={() => setShow(false)}
                         >
-                          <IoPersonOutline className="w-5 h-5" />
+                          <IoPersonOutline className="w-4 h-4 sm:w-5 sm:h-5" />
                           Sign Up
                         </Link>
                       </div>
                     ) : (
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3 p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
-                          <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
-                            <span className="text-white font-medium">
+                      <div className="space-y-2 sm:space-y-3">
+                        <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                            <span className="text-white font-medium text-sm sm:text-base">
                               {profile?.user?.name?.charAt(0)?.toUpperCase() || 'U'}
                             </span>
                           </div>
-                          <div>
-                            <p className="font-medium text-neutral-900 dark:text-neutral-100">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-neutral-900 dark:text-neutral-100 text-sm sm:text-base truncate">
                               {profile?.user?.name || 'User'}
                             </p>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                              {profile?.user?.email}
+                            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 truncate">
+                              {profile?.user?.email || 'No email'}
                             </p>
                           </div>
                         </div>
@@ -341,9 +341,9 @@ function Navbar() {
                             handleLogout();
                             setShow(false);
                           }}
-                          className="flex items-center gap-2 w-full px-4 py-3 bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-400 rounded-lg hover:bg-accent-200 dark:hover:bg-accent-900/50 transition-colors"
+                          className="flex items-center gap-2 w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-accent-100 dark:bg-accent-900/30 text-accent-600 dark:text-accent-400 rounded-lg hover:bg-accent-200 dark:hover:bg-accent-900/50 transition-colors text-sm sm:text-base"
                         >
-                          <IoLogOutOutline className="w-5 h-5" />
+                          <IoLogOutOutline className="w-4 h-4 sm:w-5 sm:h-5" />
                           Sign Out
                         </button>
                       </div>
@@ -357,7 +357,7 @@ function Navbar() {
       </AnimatePresence>
 
       {/* Spacer for fixed navbar */}
-      <div className="h-16" />
+      <div className="h-14 sm:h-16" />
     </>
   );
 }
