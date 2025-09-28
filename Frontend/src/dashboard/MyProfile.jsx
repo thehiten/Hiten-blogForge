@@ -111,7 +111,7 @@ function MyProfile() {
 
   return (
     <div>
-      <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -135,19 +135,19 @@ function MyProfile() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden"
             >
-              <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 px-8 py-12 text-white">
+              <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 px-4 sm:px-8 py-8 sm:py-12 text-white">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   {/* Profile Picture */}
                   <div className="relative">
           {profile.user.photo && profile.user.photo.url ? (
             <img
               src={profile.user.photo.url}
-                        className="w-32 h-32 rounded-full border-4 border-white shadow-2xl object-cover"
+                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-2xl object-cover"
               alt={profile.user.name || "Profile"}
             />
           ) : (
-                      <div className="w-32 h-32 rounded-full border-4 border-white bg-white/20 flex items-center justify-center">
-                        <IoPersonOutline className="w-16 h-16 text-white" />
+                      <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white bg-white/20 flex items-center justify-center">
+                        <IoPersonOutline className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
             </div>
           )}
                     <button className="absolute -bottom-2 -right-2 w-10 h-10 bg-white text-blue-600 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-50 transition-colors">
@@ -160,10 +160,10 @@ function MyProfile() {
 
                   {/* Profile Info */}
                   <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-3xl font-bold mb-2">{profile.user.name || "No Name"}</h1>
-                    <p className="text-blue-100 text-lg mb-4">{profile.user.role || "No Role"}</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">{profile.user.name || "No Name"}</h1>
+                    <p className="text-blue-100 text-base sm:text-lg mb-4">{profile.user.role || "No Role"}</p>
                     {profile.user.bio && (
-                      <p className="text-blue-100 mb-4 max-w-md">{profile.user.bio}</p>
+                      <p className="text-blue-100 mb-4 max-w-md text-sm sm:text-base">{profile.user.bio}</p>
                     )}
                     
                     {/* Social Links */}
@@ -295,20 +295,20 @@ function MyProfile() {
                       <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Recent Blogs</h3>
                     </div>
                     
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       {profileStats.recentBlogs.map((blog, index) => (
-                        <div key={blog._id} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-neutral-700/50 rounded-xl">
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold">
+                        <div key={blog._id} className="flex items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 dark:bg-neutral-700/50 rounded-xl">
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
                             {index + 1}
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-800 dark:text-gray-200 truncate">{blog.title}</h4>
-                            <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-gray-800 dark:text-gray-200 text-sm sm:text-base leading-tight mb-1 sm:mb-2 break-words">{blog.title}</h4>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                               <span className="flex items-center gap-1">
-                                <IoEyeOutline className="w-3 h-3" />
-                                {blog.views || 0}
+                                <IoEyeOutline className="w-3 h-3 flex-shrink-0" />
+                                <span className="truncate">{blog.views || 0} views</span>
                               </span>
-                              <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+                              <span className="truncate">{new Date(blog.createdAt).toLocaleDateString()}</span>
                             </div>
                           </div>
                         </div>

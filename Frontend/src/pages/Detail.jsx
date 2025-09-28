@@ -46,11 +46,19 @@ function Detail() {
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const contentRef = useRef(null);
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
+
     // Fetch blog data on component mount
     useEffect(() => {
         const fetchBlog = async () => {
             try {
                 setLoading(true);
+                // Scroll to top when component mounts
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
                 const { data } = await axios.get(`https://hiten-blogforge-1.onrender.com/api/blog/getSingleBlog/${id}`, {
                     withCredentials: true,
                 });
@@ -229,8 +237,8 @@ function Detail() {
             </div>
 
             {/* Navigation Header */}
-            <div className="bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-40 pt-20">
-                <div className="container mx-auto px-6 lg:px-8 py-6">
+            <div className="bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-40 pt-16">
+                <div className="container mx-auto px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <button
                             onClick={() => navigate(-1)}
@@ -277,7 +285,7 @@ function Detail() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-6 lg:px-8 py-12">
+            <div className="container mx-auto px-6 lg:px-8 py-6">
                 <div className="max-w-5xl mx-auto">
                     {/* Enhanced Hero Section */}
                     <motion.div
@@ -442,7 +450,7 @@ function Detail() {
                                 <div className="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
                                     <div className="flex items-center gap-1">
                                         <IoBookOutline className="w-4 h-4" />
-                                        <span>{Math.floor(Math.random() * 20) + 5} posts</span>
+                                        <span>{blogs ? blogs.filter(b => b.adminName === blog.adminName).length : 0} posts</span>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <IoTrendingUpOutline className="w-4 h-4" />

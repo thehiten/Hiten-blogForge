@@ -19,14 +19,17 @@ import {
   IoWarningOutline,
   IoSettingsOutline,
   IoGridOutline,
-  IoListOutline
+  IoListOutline,
+  IoRefreshOutline
 } from "react-icons/io5";
 import toast from "react-hot-toast";
 
 function MyBlog() {
   const [myBlogs, setMyBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [deleting, setDeleting] = useState(null);
+  const [showActionsMenu, setShowActionsMenu] = useState(null);
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +47,7 @@ function MyBlog() {
         });
         setMyBlogs(response.data);
       } catch (error) {
+        setError("Failed to load your blogs");
         toast.error("Failed to load your blogs");
       } finally {
         setLoading(false);
@@ -89,6 +93,22 @@ function MyBlog() {
   const handleLoadMore = () => {
     setCurrentPage(prev => prev + 1);
   };
+
+  // Handle actions menu
+  const handleActionsMenu = (blogId) => {
+    setShowActionsMenu(showActionsMenu === blogId ? null : blogId);
+  };
+
+  // Close actions menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.actions-menu')) {
+        setShowActionsMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const totalPages = Math.ceil(myBlogs.length / itemsPerPage);
   const hasMore = displayedBlogs.length < myBlogs.length;
@@ -280,6 +300,34 @@ function MyBlog() {
           </motion.div>
         )}
 
+        {/* Error State */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-16"
+          >
+            <div className="max-w-md mx-auto">
+              <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <IoWarningOutline className="w-12 h-12 text-red-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
+                Error Loading Blogs
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+                {error}
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="btn-primary inline-flex items-center gap-2 group"
+              >
+                <IoRefreshOutline className="w-5 h-5 group-hover:rotate-180 transition-transform duration-200" />
+                Try Again
+              </button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Blogs Grid */}
         <AnimatePresence mode="wait">
           {loading ? (
@@ -303,7 +351,7 @@ function MyBlog() {
               className={
                 viewMode === "grid"
                   ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                  : "space-y-6"
+                  : "space-y-4"
               }
             >
               {displayedBlogs.map((element, index) => (
@@ -314,13 +362,21 @@ function MyBlog() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="group"
                 >
-                  <div className="card card-hover h-full flex flex-col overflow-hidden">
+                  <div className={`card card-hover overflow-hidden ${
+                    viewMode === "grid" 
+                      ? "h-full flex flex-col" 
+                      : "flex flex-row h-32"
+                  }`}>
                     {/* Image Section */}
-                    <div className="relative overflow-hidden">
+                    <div className={`relative overflow-hidden ${
+                      viewMode === "grid" ? "w-full" : "w-32 flex-shrink-0"
+                    }`}>
                       <Link to={`/blog/${element._id}`}>
                         <img
                           src={element.blogImage?.url || '/api/placeholder/400/250'}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                          className={`object-cover group-hover:scale-105 transition-transform duration-500 ${
+                            viewMode === "grid" ? "w-full h-48" : "w-full h-full"
+                          }`}
                           alt={element.title}
                         />
                       </Link>
@@ -335,28 +391,80 @@ function MyBlog() {
 
                       {/* Actions Menu */}
                       <div className="absolute top-4 right-4">
-                        <div className="relative group/menu">
-                          <button className="p-2 bg-black/50 backdrop-blur-sm text-white rounded-lg hover:bg-black/70 transition-colors">
+                        <div className="relative actions-menu">
+                          <button 
+                            onClick={() => handleActionsMenu(element._id)}
+                            className="p-2 bg-black/50 backdrop-blur-sm text-white rounded-lg hover:bg-black/70 transition-colors"
+                          >
                             <IoEllipsisVerticalOutline className="w-4 h-4" />
                           </button>
+                          
+                          {/* Actions Dropdown */}
+                          {showActionsMenu === element._id && (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                              className="absolute right-0 top-12 w-48 bg-white dark:bg-neutral-800 rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-700 py-2 z-50"
+                            >
+                              <Link
+                                to={`/blog/update/${element._id}`}
+                                className="flex items-center gap-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                                onClick={() => setShowActionsMenu(null)}
+                              >
+                                <IoPencilOutline className="w-4 h-4" />
+                                Edit Blog
+                              </Link>
+                              <Link
+                                to={`/blog/${element._id}`}
+                                className="flex items-center gap-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                                onClick={() => setShowActionsMenu(null)}
+                              >
+                                <IoEyeOutline className="w-4 h-4" />
+                                View Blog
+                              </Link>
+                              <button
+                                onClick={() => {
+                                  handleDelete(element._id);
+                                  setShowActionsMenu(null);
+                                }}
+                                className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full text-left"
+                              >
+                                <IoTrashOutline className="w-4 h-4" />
+                                Delete Blog
+                              </button>
+                            </motion.div>
+                          )}
                         </div>
                       </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6 flex flex-col flex-grow">
+                    <div className={`flex flex-col ${
+                      viewMode === "grid" ? "p-6 flex-grow" : "p-4 flex-grow"
+                    }`}>
                       <Link to={`/blog/${element._id}`}>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-3 group-hover:text-gradient transition-colors duration-200 text-truncate-2">
+                        <h3 className={`font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-gradient transition-colors duration-200 ${
+                          viewMode === "grid" 
+                            ? "text-xl mb-3 text-truncate-2" 
+                            : "text-lg mb-2 line-clamp-1"
+                        }`}>
                           {element.title}
                         </h3>
                       </Link>
                       
-                      <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-4 text-truncate-3 flex-grow">
+                      <p className={`text-neutral-600 dark:text-neutral-400 flex-grow ${
+                        viewMode === "grid" 
+                          ? "text-sm mb-4 text-truncate-3" 
+                          : "text-xs mb-2 line-clamp-2"
+                      }`}>
                         {element.description || "Discover amazing insights and stories from our community..."}
                       </p>
 
                       {/* Meta Information */}
-                      <div className="flex items-center gap-4 mb-4 text-sm text-neutral-500 dark:text-neutral-400">
+                      <div className={`flex items-center gap-4 text-neutral-500 dark:text-neutral-400 ${
+                        viewMode === "grid" ? "mb-4 text-sm" : "mb-2 text-xs"
+                      }`}>
                         <div className="flex items-center gap-1">
                           <IoCalendarOutline className="w-4 h-4" />
                           <span>{formatDate(element.createdAt)}</span>
@@ -368,14 +476,20 @@ function MyBlog() {
                       </div>
 
                       {/* Author Info */}
-                      <div className="flex items-center gap-3 mb-6">
+                      <div className={`flex items-center gap-3 ${
+                        viewMode === "grid" ? "mb-6" : "mb-3"
+                      }`}>
                         <img
                           src={element.adminPhoto || '/api/placeholder/40/40'}
                           alt={element.adminName}
-                          className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-neutral-800 shadow-md"
+                          className={`rounded-full object-cover border-2 border-white dark:border-neutral-800 shadow-md ${
+                            viewMode === "grid" ? "w-10 h-10" : "w-8 h-8"
+                          }`}
                         />
                         <div>
-                          <p className="font-semibold text-neutral-900 dark:text-neutral-100 text-sm">
+                          <p className={`font-semibold text-neutral-900 dark:text-neutral-100 ${
+                            viewMode === "grid" ? "text-sm" : "text-xs"
+                          }`}>
                             {element.adminName || 'You'}
                           </p>
                           <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -385,33 +499,35 @@ function MyBlog() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                        <Link
-                          to={`/blog/update/${element._id}`}
-                          className="flex-1 btn-outline text-sm py-2 inline-flex items-center justify-center gap-2 group"
-                        >
-                          <IoPencilOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                          Edit
-                        </Link>
-                        <Link
-                          to={`/blog/${element._id}`}
-                          className="flex-1 btn-ghost text-sm py-2 inline-flex items-center justify-center gap-2 group"
-                        >
-                          <IoEyeOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                          View
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(element._id)}
-                          disabled={deleting === element._id}
-                          className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group"
-                        >
-                          {deleting === element._id ? (
-                            <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-                          ) : (
-                            <IoTrashOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                          )}
-                        </button>
-                      </div>
+                      {viewMode === "grid" && (
+                        <div className="flex gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                          <Link
+                            to={`/blog/update/${element._id}`}
+                            className="flex-1 btn-outline text-sm py-2 inline-flex items-center justify-center gap-2 group"
+                          >
+                            <IoPencilOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                            Edit
+                          </Link>
+                          <Link
+                            to={`/blog/${element._id}`}
+                            className="flex-1 btn-ghost text-sm py-2 inline-flex items-center justify-center gap-2 group"
+                          >
+                            <IoEyeOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                            View
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(element._id)}
+                            disabled={deleting === element._id}
+                            className="px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group"
+                          >
+                            {deleting === element._id ? (
+                              <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                            ) : (
+                              <IoTrashOutline className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                            )}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
