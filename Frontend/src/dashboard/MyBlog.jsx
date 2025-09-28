@@ -185,7 +185,7 @@ function MyBlog() {
                 <IoEyeOutline className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-                {(myBlogs.length * 1.2).toFixed(1)}k
+                0
               </h3>
               <p className="text-neutral-600 dark:text-neutral-400">Total Views</p>
             </div>

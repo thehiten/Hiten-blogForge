@@ -146,12 +146,6 @@ function Dashboard() {
           <div className={`w-12 h-12 bg-gradient-to-br ${colorClasses[color] || colorClasses.blue} rounded-xl flex items-center justify-center`}>
           <Icon className="w-6 h-6 text-white" />
         </div>
-        {change && (
-          <div className={`flex items-center gap-1 text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-            <IoTrendingUpOutline className="w-4 h-4" />
-            <span>{change > 0 ? '+' : ''}{change}%</span>
-          </div>
-        )}
       </div>
       <h3 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
         {value}
@@ -247,7 +241,7 @@ function Dashboard() {
                           <IoTrendingUpOutline className="w-5 h-5 sm:w-6 sm:h-6 text-pink-300" />
                           <div>
                             <p className="text-xs sm:text-sm text-blue-100">This Month</p>
-                            <p className="text-lg sm:text-xl font-bold">+{Math.floor(Math.random() * 50) + 10}%</p>
+                            <p className="text-lg sm:text-xl font-bold">Active</p>
                           </div>
                         </div>
                       </motion.div>
@@ -291,7 +285,6 @@ function Dashboard() {
                   icon={IoBookOutline}
                   title="Total Blogs"
                   value={dashboardData.totalBlogs}
-                  change={12}
                   color="blue"
                 />
                 </motion.div>
@@ -303,7 +296,6 @@ function Dashboard() {
                   icon={IoEyeOutline}
                   title="Total Views"
                   value={dashboardData.totalViews.toLocaleString()}
-                  change={8}
                   color="green"
                 />
                 </motion.div>
@@ -315,7 +307,6 @@ function Dashboard() {
                   icon={IoHeartOutline}
                   title="Likes Received"
                   value={Math.floor(dashboardData.totalViews * 0.15).toLocaleString()}
-                  change={-2}
                   color="red"
                 />
                 </motion.div>
@@ -327,7 +318,6 @@ function Dashboard() {
                   icon={IoShareOutline}
                   title="Shares"
                   value={Math.floor(dashboardData.totalViews * 0.08).toLocaleString()}
-                  change={15}
                   color="purple"
                 />
                 </motion.div>
@@ -486,10 +476,6 @@ function Dashboard() {
                         <p className="text-2xl font-bold text-green-600">
                           {dashboardData.analytics.weeklyViews}
                         </p>
-                        <p className="text-xs text-green-600 flex items-center gap-1">
-                          <IoTrendingUpOutline className="w-3 h-3" />
-                          +12%
-                        </p>
                       </div>
                     </div>
                     
@@ -511,10 +497,6 @@ function Dashboard() {
                         <p className="text-2xl font-bold text-blue-600">
                           {dashboardData.analytics.monthlyViews}
                         </p>
-                        <p className="text-xs text-blue-600 flex items-center gap-1">
-                          <IoTrendingUpOutline className="w-3 h-3" />
-                          +8%
-                        </p>
                       </div>
                     </div>
 
@@ -534,11 +516,7 @@ function Dashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-2xl font-bold text-purple-600">
-                          4.2%
-                        </p>
-                        <p className="text-xs text-purple-600 flex items-center gap-1">
-                          <IoTrendingUpOutline className="w-3 h-3" />
-                          +3%
+                          0
                         </p>
                       </div>
                     </div>
