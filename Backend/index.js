@@ -9,19 +9,22 @@ import { v2 as cloudinary } from 'cloudinary';
 import blogRoute from './routes/blog.route.js';
 import userRoute from './routes/user.route.js';
 import contactRoute from './routes/contact.route.js';
+import path from 'path';
 
 // Load environment variables from .env
 dotenv.config();
 
 const app = express();
 
+const __dirname = path.resolve();
+
 // Define port and MongoDB connection URL from environment variables
 const port = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGODB_URL;
 
 // Middleware for parsing JSON and URL-encoded data
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware for parsing cookies
 app.use(cookieParser());
@@ -33,32 +36,9 @@ app.use(fileUpload({
 }));
 
 // Middleware for CORS
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'https://hiten-blog-forge.vercel.app',
-  'https://hiten-blogforge-77ncwmtfz-thehitens-projects.vercel.app',
-  process.env.FRONTEND_URL
-].filter(Boolean); // Remove any undefined values
-
-console.log('Allowed CORS origins:', allowedOrigins);
-
 app.use(cors({
-  origin: function (origin, callback) {
-    console.log('CORS request from origin:', origin);
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      console.log('Origin allowed:', origin);
-      callback(null, true);
-    } else {
-      console.log('Origin blocked:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  credentials: true, // Allow cookies to be sent
+  origin: 'http://localhost:5173',
+  credentials: true
 }));
 
 // Connect to MongoDB
@@ -87,13 +67,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Add a simple test route
-app.get('/', (req, res) => {
-  res.json({ message: 'Server is running!' });
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', "dist", 'index.html'));
 });
+
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  console.log(`CORS enabled for origins:`, allowedOrigins);
+  console.log(`CORS enabled for origin: http://localhost:5173`);
 });

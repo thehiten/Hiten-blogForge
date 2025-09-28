@@ -288,7 +288,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🔗 Live Demo
 
-- **Frontend**: [https://hiten-blog-forge.vercel.app](https://hiten-blog-forge.vercel.app)
 - **Backend API**: [https://hiten-blogforge.onrender.com](https://hiten-blogforge.onrender.com)
 
 ## 📞 Support
