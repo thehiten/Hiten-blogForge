@@ -68,12 +68,11 @@ app.use((err, req, res, next) => {
 });
 
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
-
+app.use(express.static(path.join(__dirname, '/Frontend/dist')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', "dist", 'index.html'));
+  res.sendFile(path.join(__dirname, 'Frontend', 'dist', 'index.html'));
 });
+
 
 
 // Start the server
