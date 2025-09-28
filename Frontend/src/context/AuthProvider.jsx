@@ -7,7 +7,19 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [blogs, setBlogs] = useState([]);
   const [profile, setProfile] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check if user was previously authenticated
+    const savedAuth = localStorage.getItem('isAuthenticated');
+    const savedProfile = localStorage.getItem('profile');
+    if (savedAuth === 'true' && savedProfile) {
+      try {
+        return JSON.parse(savedAuth);
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
 
   // Function to fetch profile data
   const fetchProfile = async () => {
@@ -23,6 +35,9 @@ export function AuthProvider({ children }) {
       );
       setProfile(response.data);
       setIsAuthenticated(true);
+      // Save to localStorage for persistence
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('profile', JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       // Don't automatically set isAuthenticated to false on profile fetch failure
@@ -46,11 +61,25 @@ export function AuthProvider({ children }) {
       );
       setProfile(response.data);
       setIsAuthenticated(true);
+      // Save to localStorage for persistence
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('profile', JSON.stringify(response.data));
       return true;
     } catch (error) {
       setIsAuthenticated(false);
+      // Clear localStorage on auth failure
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('profile');
       return false;
     }
+  };
+
+  // Function to clear authentication data
+  const clearAuth = () => {
+    setIsAuthenticated(false);
+    setProfile({});
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('profile');
   };
 
   useEffect(() => {
@@ -65,20 +94,40 @@ export function AuthProvider({ children }) {
 
     fetchBlogs(); // Call the function to get blog data
     
-    // Check authentication status on mount (but don't interfere with login process)
-    // This will only run if the user refreshes the page or comes back to the app
-    const checkAuth = async () => {
-      try {
-        await checkAuthStatus();
-      } catch (error) {
-      }
-    };
+    // Check if user was previously authenticated and restore profile
+    const savedAuth = localStorage.getItem('isAuthenticated');
+    const savedProfile = localStorage.getItem('profile');
     
-    checkAuth();
+    if (savedAuth === 'true' && savedProfile) {
+      try {
+        const parsedProfile = JSON.parse(savedProfile);
+        setProfile(parsedProfile);
+        setIsAuthenticated(true);
+        
+        // Verify the session is still valid with the server
+        checkAuthStatus().then((isValid) => {
+          if (!isValid) {
+            clearAuth();
+          }
+        });
+      } catch (error) {
+        clearAuth();
+      }
+    } else {
+      // Check authentication status on mount if no saved data
+      const checkAuth = async () => {
+        try {
+          await checkAuthStatus();
+        } catch (error) {
+          clearAuth();
+        }
+      };
+      checkAuth();
+    }
   }, []); // Run once when the component mounts
 
   return (
-    <AuthContext.Provider value={{ blogs, profile, isAuthenticated, setIsAuthenticated, setProfile, fetchProfile, checkAuthStatus }}>
+    <AuthContext.Provider value={{ blogs, profile, isAuthenticated, setIsAuthenticated, setProfile, fetchProfile, checkAuthStatus, clearAuth }}>
       {children} {/* Render child components */}
     </AuthContext.Provider>
   );

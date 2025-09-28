@@ -27,7 +27,7 @@ function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { profile, isAuthenticated, setIsAuthenticated } = useAuth();
+  const { profile, isAuthenticated, setIsAuthenticated, clearAuth } = useAuth();
   const { theme, toggleTheme, isDark } = useTheme();
 
   // Handle scroll effect
@@ -48,11 +48,13 @@ function Navbar() {
       await axios.post("http://localhost:3000/api/user/logout", {}, {
         withCredentials: true,
       });
-      setIsAuthenticated(false);
+      clearAuth(); // Use clearAuth to properly clear all auth data
       toast.success("Logged out successfully.");
       navigate("/login");
     } catch (error) {
+      clearAuth(); // Clear auth data even if server logout fails
       toast.error("Failed to log out. Please try again.");
+      navigate("/login");
     }
   };
 

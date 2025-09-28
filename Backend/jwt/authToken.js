@@ -5,12 +5,12 @@ export const createTokenAndSaveCookies = async (userId, res) => {
   try {
     // Generate JWT token
     const token = jwt.sign({ userId }, process.env.JWT_TOKEN, {
-      expiresIn: '1h',
+      expiresIn: '10m',
     });
 
     // Set cookie with JWT
     res.cookie('jwt', token, {
-      expires: new Date(Date.now() + 3600000), // 1 hour
+      expires: new Date(Date.now() + 600000), // 10 minutes
       httpOnly: true, // Prevent client-side JavaScript access
       secure: process.env.NODE_ENV === 'production', // Use only in HTTPS for production
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Use 'lax' for localhost development
@@ -20,7 +20,7 @@ export const createTokenAndSaveCookies = async (userId, res) => {
 
     console.log('Token created and cookie set:', token); // Log for debugging
     console.log('Cookie settings:', {
-      expires: new Date(Date.now() + 3600000),
+      expires: new Date(Date.now() + 600000),
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
