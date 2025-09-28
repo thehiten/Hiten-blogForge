@@ -56,7 +56,7 @@ function Detail() {
                 });
                 setBlog(data);
                 setViews(data.views || 0);
-                setLikes(Math.floor((data.views || 0) * 0.15)); // Simulate likes based on views
+                setLikes(0); // Set likes to 0
                 
                 // Find related blogs
                 if (blogs && blogs.length > 0) {
@@ -446,7 +446,7 @@ function Detail() {
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <IoTrendingUpOutline className="w-4 h-4" />
-                                        <span>{Math.floor(Math.random() * 1000) + 100}k followers</span>
+                                        <span>0 followers</span>
                                     </div>
                                 </div>
                             </div>

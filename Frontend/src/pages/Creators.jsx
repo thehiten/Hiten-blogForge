@@ -299,14 +299,14 @@ function Creator() {
                           <div className="text-center p-3 bg-neutral-50 dark:bg-neutral-700/50 rounded-xl">
                             <IoBookOutline className="w-5 h-5 text-blue-500 mx-auto mb-1" />
                             <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                              {Math.floor(Math.random() * 20) + 5}
+                              0
                             </p>
                             <p className="text-xs text-neutral-600 dark:text-neutral-400">Posts</p>
                           </div>
                           <div className="text-center p-3 bg-neutral-50 dark:bg-neutral-700/50 rounded-xl">
                             <IoEyeOutline className="w-5 h-5 text-green-500 mx-auto mb-1" />
                             <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                              {Math.floor(Math.random() * 1000) + 100}k
+                              0
                             </p>
                             <p className="text-xs text-neutral-600 dark:text-neutral-400">Views</p>
                           </div>
@@ -361,7 +361,7 @@ function Creator() {
                                 <IoBookOutline className="w-5 h-5 text-blue-500" />
                                 <div>
                                   <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                                    {Math.floor(Math.random() * 20) + 5}
+                                    0
                                   </p>
                                   <p className="text-xs text-neutral-600 dark:text-neutral-400">Posts</p>
                                 </div>
@@ -370,7 +370,7 @@ function Creator() {
                                 <IoEyeOutline className="w-5 h-5 text-green-500" />
                                 <div>
                                   <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                                    {Math.floor(Math.random() * 1000) + 100}k
+                                    0
                                   </p>
                                   <p className="text-xs text-neutral-600 dark:text-neutral-400">Views</p>
                                 </div>

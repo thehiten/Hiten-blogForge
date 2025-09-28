@@ -192,11 +192,11 @@ function Hero() {
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1">
                             <IoEyeOutline className="w-3 h-3" />
-                            <span>{Math.floor(Math.random() * 1000) + 100}</span>
+                            <span>0</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <IoHeartOutline className="w-3 h-3" />
-                            <span>{Math.floor(Math.random() * 50) + 5}</span>
+                            <span>0</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-1">

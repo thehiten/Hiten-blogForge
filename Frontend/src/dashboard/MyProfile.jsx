@@ -68,9 +68,9 @@ function MyProfile() {
         const blogs = response.data || [];
         setProfileStats({
           totalBlogs: blogs.length,
-          totalViews: blogs.reduce((sum, blog) => sum + (blog.views || 0), 0),
-          totalLikes: Math.floor(blogs.reduce((sum, blog) => sum + (blog.views || 0), 0) * 0.15),
-          totalShares: Math.floor(blogs.reduce((sum, blog) => sum + (blog.views || 0), 0) * 0.08),
+          totalViews: 0,
+          totalLikes: 0,
+          totalShares: 0,
           recentBlogs: blogs.slice(0, 3)
         });
       } catch (error) {

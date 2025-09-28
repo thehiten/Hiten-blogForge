@@ -189,15 +189,15 @@ function Trending() {
                           <div className="flex items-center gap-2 mb-3 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
                               <IoEyeOutline className="w-3 h-3 text-blue-500" />
-                              <span>1.2k</span>
+                              <span>0</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <IoHeartOutline className="w-3 h-3 text-red-500" />
-                              <span>89</span>
+                              <span>0</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <IoBookmarkOutline className="w-3 h-3 text-purple-500" />
-                              <span>34</span>
+                              <span>0</span>
                             </div>
                           </div>
 

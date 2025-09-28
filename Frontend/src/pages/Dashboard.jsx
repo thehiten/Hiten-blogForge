@@ -80,12 +80,12 @@ function Dashboard() {
         const blogs = blogsResponse.data || [];
         setDashboardData({
           totalBlogs: blogs.length,
-          totalViews: blogs.reduce((sum, blog) => sum + (blog.views || 0), 0),
+          totalViews: 0,
           recentBlogs: blogs.slice(0, 5),
           analytics: {
-            weeklyViews: Math.floor(blogs.reduce((sum, blog) => sum + (blog.views || 0), 0) * 0.3),
-            monthlyViews: blogs.reduce((sum, blog) => sum + (blog.views || 0), 0),
-            popularBlogs: blogs.sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 3)
+            weeklyViews: 0,
+            monthlyViews: 0,
+            popularBlogs: blogs.slice(0, 3)
           }
         });
       } catch (error) {
