@@ -363,7 +363,7 @@ function MyBlog() {
                         </div>
                         <div className="flex items-center gap-1">
                           <IoEyeOutline className="w-4 h-4" />
-                          <span>1.2k</span>
+                          <span>0</span>
                         </div>
                       </div>
 

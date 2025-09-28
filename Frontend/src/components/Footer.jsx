@@ -160,7 +160,7 @@ function Footer() {
               viewport={{ once: true }}
               className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400"
             >
-              <span>&copy; {new Date().getFullYear()} BlogForge.</span>
+              <span>&copy; {new Date().getFullYear()} BlogForge. All rights reserved.</span>
               <span>Made with</span>
               <IoHeartOutline className="w-4 h-4 text-accent-500" />
               <span>by Hiten</span>
